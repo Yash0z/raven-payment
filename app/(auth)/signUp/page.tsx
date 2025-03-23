@@ -21,11 +21,11 @@ export default function signUp() {
 				</div>
 			</div>
 			<div className='bg-muted relative hidden lg:block'>
-				<img
-					src='/placeholder.svg'
+				{/* <img
+					src=''
 					alt=''
 					className='absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale'
-				/>
+				/> */}
 			</div>
 		</div>
 	);
