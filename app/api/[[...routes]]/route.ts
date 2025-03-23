@@ -1,10 +1,11 @@
 import { Hono } from 'hono'
 import { handle } from 'hono/vercel'
-
+import { cors } from 'hono/cors'
+import { auth } from '@/lib/auth'
 export const runtime = 'edge'
 
 const app = new Hono().basePath('/api')
-
+app.use("/api/*", cors());
 app.get('/hello', (c) => {
   return c.json({
     message: 'Hello Next.js!',
@@ -14,10 +15,8 @@ app.get('/hello', (c) => {
 export const GET = handle(app)
 export const POST = handle(app)
 
-// app.on(["GET"], "/api/auth-providers", (c) => {
-// 	return c.json(Object.keys(configuredProviders));
-// });
 
-// app.on(["POST", "GET"], "/api/auth/**", (c) => {
-// 	return auth.handler(c.req.raw);
-// });
+//handlers for better-auth
+app.on(["POST", "GET"], "/api/auth/**", (c) => {
+	return auth.handler(c.req.raw);
+});
