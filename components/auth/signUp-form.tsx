@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-
 import {
 	Form,
 	FormControl,
@@ -15,11 +14,14 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { SignUpSchema } from "@/types";
+import { useSignUp } from "@/features/auth/use-auth";
+import { authClient } from "@/lib/auth-client";
 
 export function SignUpForm({
 	className,
 	...props
 }: React.ComponentProps<"form">) {
+	const { mutate, isPending } = useSignUp();
 	const form = useForm<z.infer<typeof SignUpSchema>>({
 		resolver: zodResolver(SignUpSchema),
 		defaultValues: {
@@ -28,8 +30,8 @@ export function SignUpForm({
 			password: "",
 		},
 	});
-   
-	function onSubmit(values: z.infer<typeof SignUpSchema>) {
+
+	async function onSubmit(values: z.infer<typeof SignUpSchema>) {
 		// Do something with the form values.
 		// ✅ This will be type-safe and validated.
 		// mutate(values);
@@ -117,6 +119,7 @@ export function SignUpForm({
 					</div>
 
 					<Button
+						disabled={isPending}
 						type='submit'
 						className='w-full  bg-button text-sm border-0 cursor-pointer'
 					>

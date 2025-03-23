@@ -3,6 +3,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 ///// LOCAL FONTS  ///////////////////////////////////////////////
 import localFont from "next/font/local";
+import TanstackProvider from "@/providers/TanstackProvider";
 
 const haskoy_B = localFont({
 	src: "../public/fonts/Haskoy-Bold.woff2",
@@ -40,7 +41,7 @@ export default function RootLayout({
 			>
 				<div className='text-xl font-satoshi-medium  h-screen w-screen p-2.5 '>
 					{" "}
-					{children}
+					<TanstackProvider>{children}</TanstackProvider>
 				</div>
 				<Toaster />
 			</body>
