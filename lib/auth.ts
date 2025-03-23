@@ -1,3 +1,4 @@
+import { schema } from "@/backend/model/schema";
 import { db } from "../backend/db";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
@@ -11,7 +12,8 @@ export const auth = betterAuth({
       }
     },
     database: drizzleAdapter(db, {
-        provider: "pg", // or "mysql", "sqlite"
+        provider: "pg",
+        schema:schema // or "mysql", "sqlite"
     }),
     
     //providers

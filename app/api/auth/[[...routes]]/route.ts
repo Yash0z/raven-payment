@@ -9,11 +9,13 @@ const app = new Hono<{
 		user: typeof auth.$Infer.Session.user | null;
 		session: typeof auth.$Infer.Session.session | null
 	}
-}>().basePath('/api')
+}>()
+//cors policy
 app.use(
 	"/api/auth/*", // or replace with "*" to enable cors for all routes
 	cors({
 		origin: "http://localhost:3000", // replace with your origin
+		allowHeaders: ["Content-Type", "Authorization"],
 		allowMethods: ["POST", "GET", "OPTIONS"],
 		exposeHeaders: ["Content-Length"],
 		maxAge: 600,
@@ -21,7 +23,7 @@ app.use(
 	}),
 );
 
-
+// better-auth session middleware
 app.use("*", async (c, next) => {
 	const session = await auth.api.getSession({ headers: c.req.raw.headers });
  
@@ -35,11 +37,12 @@ app.use("*", async (c, next) => {
   	c.set("session", session.session);
   	return next();
 });
- 
+
+// better-auth handlers
 app.on(["POST", "GET"], "/api/auth/*", (c) => {
 	return auth.handler(c.req.raw);
 });
  
- 
+// http handler
 export const GET = handle(app)
 export const POST = handle(app)

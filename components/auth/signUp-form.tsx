@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/form";
 import { SignUpSchema } from "@/types";
 import { useSignUp } from "@/features/auth/use-auth";
-import { authClient } from "@/lib/auth-client";
 
 export function SignUpForm({
 	className,
@@ -34,7 +33,7 @@ export function SignUpForm({
 	async function onSubmit(values: z.infer<typeof SignUpSchema>) {
 		// Do something with the form values.
 		// ✅ This will be type-safe and validated.
-		// mutate(values);
+		mutate(values);
 		console.log(values);
 	}
 
@@ -55,7 +54,6 @@ export function SignUpForm({
 				</div>
 				<div className='grid gap-6'>
 					<FormField
-						// disabled={isPending}
 						control={form.control}
 						name='email'
 						render={({ field }) => (
@@ -63,6 +61,7 @@ export function SignUpForm({
 								<FormLabel className='text-[0.8em]'>Email</FormLabel>
 								<FormControl>
 									<Input
+										disabled={isPending}
 										className='h-10  border-form-label'
 										placeholder='your@username'
 										{...field}
@@ -74,7 +73,6 @@ export function SignUpForm({
 					/>
 					<div className='grid gap-3'>
 						<FormField
-							// disabled={isPending}
 							control={form.control}
 							name='name'
 							render={({ field }) => (
@@ -84,8 +82,9 @@ export function SignUpForm({
 									</FormLabel>
 									<FormControl>
 										<Input
+											disabled={isPending}
 											className='h-10 border-form-label'
-											placeholder='usernmae'
+											placeholder='username'
 											{...field}
 										/>
 									</FormControl>
@@ -96,7 +95,6 @@ export function SignUpForm({
 					</div>
 					<div className='grid gap-3'>
 						<FormField
-							// disabled={isPending}
 							control={form.control}
 							name='password'
 							render={({ field }) => (
@@ -106,6 +104,7 @@ export function SignUpForm({
 									</FormLabel>
 									<FormControl>
 										<Input
+											disabled={isPending}
 											type='password'
 											className='h-10 text-lg border-form-label'
 											placeholder='*************'
@@ -132,6 +131,7 @@ export function SignUpForm({
 						</span>
 					</div>
 					<Button
+						disabled={isPending}
 						variant='outline'
 						className='w-full  bg-button text-sm border-0'
 					>

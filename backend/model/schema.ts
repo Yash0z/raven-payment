@@ -36,3 +36,6 @@ export const account = pgTable("account", {
  createdAt: timestamp('created_at').notNull(),
  updatedAt: timestamp('updated_at').notNull()
 				});
+            export const schema = {
+               user, session, account
+             };

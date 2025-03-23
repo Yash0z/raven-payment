@@ -16,11 +16,13 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { SignInSchema } from "@/types";
+import { useSignIn } from "@/features/auth/use-auth";
 
 export function SignInForm({
 	className,
 	...props
 }: React.ComponentProps<"form">) {
+	const { mutate, isPending } = useSignIn();
 	const form = useForm<z.infer<typeof SignInSchema>>({
 		resolver: zodResolver(SignInSchema),
 		defaultValues: {
@@ -28,10 +30,10 @@ export function SignInForm({
 			password: "",
 		},
 	});
-	function onSubmit(values: z.infer<typeof SignInSchema>) {
+	async function onSubmit(values: z.infer<typeof SignInSchema>) {
 		// Do something with the form values.
 		// ✅ This will be type-safe and validated.
-		// mutate(values);
+		mutate(values);
 		console.log(values);
 	}
 
@@ -52,7 +54,6 @@ export function SignInForm({
 				</div>
 				<div className='grid gap-6'>
 					<FormField
-						// disabled={isPending}
 						control={form.control}
 						name='email'
 						render={({ field }) => (
@@ -60,6 +61,7 @@ export function SignInForm({
 								<FormLabel className='text-[0.8em]'>Email</FormLabel>
 								<FormControl>
 									<Input
+										disabled={isPending}
 										className='h-10  border-form-label'
 										placeholder='your@username'
 										{...field}
@@ -71,7 +73,6 @@ export function SignInForm({
 					/>
 					<div className='grid gap-3'>
 						<FormField
-							// disabled={isPending}
 							control={form.control}
 							name='password'
 							render={({ field }) => (
@@ -81,6 +82,7 @@ export function SignInForm({
 									</FormLabel>
 									<FormControl>
 										<Input
+											disabled={isPending}
 											type='password'
 											className='h-10 text-lg border-form-label'
 											placeholder='*************'
@@ -94,6 +96,7 @@ export function SignInForm({
 					</div>
 
 					<Button
+						disabled={isPending}
 						type='submit'
 						className='w-full  bg-button text-sm border-0 cursor-pointer'
 					>
@@ -106,6 +109,7 @@ export function SignInForm({
 						</span>
 					</div>
 					<Button
+						disabled={isPending}
 						variant='outline'
 						className='w-full  bg-button text-sm border-0'
 					>
