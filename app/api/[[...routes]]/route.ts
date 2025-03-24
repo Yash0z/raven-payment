@@ -1,8 +1,7 @@
-import { Hono } from 'hono'
-import { cors } from 'hono/cors'
 import { auth } from '@/lib/auth'
+import { Hono } from 'hono'
 import { handle } from 'hono/vercel'
-export const runtime = 'edge'
+import { cors } from "hono/cors";
 
 const app = new Hono<{
 	Variables: {
@@ -10,26 +9,17 @@ const app = new Hono<{
 		session: typeof auth.$Infer.Session.session | null
 	}
 }>()
-//cors policy
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [];
 app.use(
 	"/api/auth/*", // or replace with "*" to enable cors for all routes
 	cors({
-		origin:  (origin, _) => {
-			if (allowedOrigins.includes(origin)) {
-				return origin;
-			}
-			return undefined;
-		}, // replace with your origin
+		origin: "http://localhost:3000", // replace with your origin
 		allowHeaders: ["Content-Type", "Authorization"],
 		allowMethods: ["POST", "GET", "OPTIONS"],
 		exposeHeaders: ["Content-Length"],
 		maxAge: 600,
-		credentials: true,
+		credentials: false   ,
 	}),
 );
-
-// better-auth session middleware
 app.use("*", async (c, next) => {
 	const session = await auth.api.getSession({ headers: c.req.raw.headers });
  
@@ -43,12 +33,39 @@ app.use("*", async (c, next) => {
   	c.set("session", session.session);
   	return next();
 });
-
-// better-auth handlers
+ 
 app.on(["POST", "GET"], "/api/auth/*", (c) => {
 	return auth.handler(c.req.raw);
 });
  
-// http handler
+
+app.get('/api/hello', (c) => {
+  return c.json({
+    message: 'Hello Next.ewjs!',
+  })
+})
+app.get("/api/session", async (c) => {
+	const session = c.get("session")
+	const user = c.get("user")
+   console.log(session, user)
+	
+	if(!user) return c.body(null, 401);
+ 
+  	return c.json({
+	  session,
+	  user
+	});
+});
+
+
+app.on(["POST", "GET"], "/api/auth/*", (c) => {
+	return auth.handler(c.req.raw);
+});
+
 export const GET = handle(app)
 export const POST = handle(app)
+
+// routes
+// import userRouter from "./user";
+// const route = app.route("/api/session", userRouter)
+// export type AppType = typeof route;

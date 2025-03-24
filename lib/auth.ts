@@ -5,10 +5,8 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
 export const auth = betterAuth({
    advanced: {
-      defaultCookieAttributes: {
-        sameSite: "none",
-        secure: true,
-        partitioned: true // New browser standards will mandate this for foreign cookies
+      crossSubDomainCookies: {
+        enabled: true
       }
     },
     database: drizzleAdapter(db, {
@@ -20,6 +18,10 @@ export const auth = betterAuth({
     emailAndPassword: {  
       enabled: true
   },
-          sameSite: "none",
+  session: {
+   expiresIn: 60 * 60 * 24 * 7, // 7 days
+   updateAge: 60 * 60 * 24, // 1 day (every 1 day the session expiration is updated)
+   freshAge: 60 * 5 // 5 minutes (if the session is older than 5 minutes, it will be considered fresh)
+}
 
 });
