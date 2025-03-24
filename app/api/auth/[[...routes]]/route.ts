@@ -11,10 +11,16 @@ const app = new Hono<{
 	}
 }>()
 //cors policy
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [];
 app.use(
 	"/api/auth/*", // or replace with "*" to enable cors for all routes
 	cors({
-		origin: "http://localhost:3000", // replace with your origin
+		origin:  (origin, _) => {
+			if (allowedOrigins.includes(origin)) {
+				return origin;
+			}
+			return undefined;
+		}, // replace with your origin
 		allowHeaders: ["Content-Type", "Authorization"],
 		allowMethods: ["POST", "GET", "OPTIONS"],
 		exposeHeaders: ["Content-Length"],
