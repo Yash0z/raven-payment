@@ -39,7 +39,7 @@ export default function RootLayout({
 			<body
 				className={`${satoshi_M.variable} ${satoshi_R.variable} ${haskoy_EB.variable} ${haskoy_B.variable} antialiased`}
 			>
-				<div className='text-xl font-satoshi-medium  h-screen w-screen p-2.5 '>
+				<div className='text-xl font-satoshi-medium  h-screen w-screen '>
 					{" "}
 					<TanstackProvider>{children}</TanstackProvider>
 				</div>

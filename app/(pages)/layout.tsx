@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
 	title: {
-		template: "%s | home",
+		template: "Home",
 		default: "raven inc",
 	},
 };
