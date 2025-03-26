@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { SignInSchema } from "@/types";
 import { useSignIn } from "@/features/auth/use-auth";
-import { Fingerprint, KeyRound } from "lucide-react";
+import { Fingerprint, KeyRound, Loader2 } from "lucide-react";
 
 export function SignInForm({
 	className,
@@ -101,7 +101,14 @@ export function SignInForm({
 						type='submit'
 						className='w-full  bg-button text-button-text text-sm border-0 cursor-pointer'
 					>
-						SignIn
+						{isPending ? (
+							<>
+								<Loader2 className='animate-spin h-4 w-4' />
+								Signing in
+							</>
+						) : (
+							"Sign in"
+						)}
 					</Button>
 
 					<div className='after:border-headline relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t'>

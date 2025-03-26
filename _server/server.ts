@@ -2,11 +2,30 @@ import { Hono } from "hono";
 import { auth } from "@/lib/auth";
 import { Context } from "./utils/Authcontext";
 import SessionMiddleware from "./middlewares/Session.Middleware";
-
-
+import { cors } from "hono/cors";
 const app = new Hono<Context>().basePath("/api");
-app.use("*", SessionMiddleware);
+
+//cors
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [];
+app.use(
+	"*", // or replace with "*" to enable cors for all routes
+	cors({
+		origin: (origin, _) => {
+			if (allowedOrigins.includes(origin)) {
+				return origin;
+			}
+			return undefined;
+		}, // replace with your origin
+		allowHeaders: ["Content-Type", "Authorization"],
+		allowMethods: ["POST", "GET", "OPTIONS"],
+		exposeHeaders: ["Content-Length"],
+		maxAge: 600,
+		credentials: true,
+	})
+);
+
 //better-auth middleware
+app.use("*", SessionMiddleware);
 
 //better-auth handlers
 app.on(["POST", "GET"], "/auth/*", (c) => {
@@ -16,6 +35,6 @@ app.on(["POST", "GET"], "/auth/*", (c) => {
 //routes
 import userRouter from "./routes/userRoute";
 
-const routes = app.route("/auth", userRouter);
+const routes = app.route("/authentication", userRouter);
 export type AppType = typeof routes;
 export default app;

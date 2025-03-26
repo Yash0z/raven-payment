@@ -1,9 +1,11 @@
 import { authClient } from "@/lib/auth-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const useSignUp = () => {
 	//   const queryClient = useQueryClient();
+	const router = useRouter();
 
 	const query = useMutation({
 		mutationKey: ["sign-up"],
@@ -25,6 +27,7 @@ export const useSignUp = () => {
 			toast("Sign-up successfull", {
 				description: "Welcome",
 			});
+			router.push("/dashboard");
 		},
 		onError: (error) => {
 			toast("Sign-up failed", {

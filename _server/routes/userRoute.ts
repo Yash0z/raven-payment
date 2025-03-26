@@ -1,6 +1,5 @@
 import { Hono } from "hono";
 import { auth } from "@/lib/auth";
-import SessionMiddleware from "../middlewares/Session.Middleware";
 
 const userRouter = new Hono<{
 	Variables: {
@@ -8,11 +7,13 @@ const userRouter = new Hono<{
 		session: typeof auth.$Infer.Session.session | null;
 	};
 }>()
-	.use(SessionMiddleware)
 	.get("/user", (c) => {
 		console.log("This is user", c.get("user"));
+		return c.json({ message: "User", user: c.get("user") });
+	})
+	.get("/session", (c) => {
 		console.log("This is session", c.get("session"));
-		return c.json({ message: "Private route", user: c.get("user") });
+		return c.json({ message: "session", user: c.get("session") });
 	});
 
 export default userRouter;

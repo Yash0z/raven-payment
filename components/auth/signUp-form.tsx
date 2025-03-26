@@ -125,8 +125,8 @@ export function SignUpForm({
 					>
 						{isPending ? (
 							<>
-								<Loader2 className='animate-spin mr-2 h-4 w-4' />
-								SignUp
+								<Loader2 className='animate-spin  h-4 w-4' />
+								Signing up
 							</>
 						) : (
 							"Sign up"
