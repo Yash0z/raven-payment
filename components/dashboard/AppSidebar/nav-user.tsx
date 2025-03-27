@@ -33,11 +33,11 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-} from "../ui/alert-dialog";
+} from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { userAtom } from "@/atoms/userAtom";
-import { SignOut } from "@/utils/sign-out";
+import { SignOut } from "@/hooks/user/sign-out";
 
 export function NavUser({
 	user,

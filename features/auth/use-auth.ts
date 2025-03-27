@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { userAtom } from "@/atoms/userAtom";
-import { persistUser } from "@/utils/hydrate.user";
+import { persistUser } from "@/hooks/user/hydrate.user";
 
 export const useSignUp = () => {
 	//   const queryClient = useQueryClient();
@@ -74,7 +74,7 @@ export const useSignIn = () => {
 					name: data.user.name,
 					id: data.user.id,
 					email: data.user.email,
-               avatar: data.user.image,
+					avatar: data.user.image,
 				};
 				setUser(userData);
 				persistUser(userData);

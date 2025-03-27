@@ -1,6 +1,6 @@
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
-import { persistUser } from "@/utils/hydrate.user";
+import { persistUser } from "@/hooks/user/hydrate.user";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { SetStateAction } from "react";
 
