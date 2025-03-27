@@ -1,5 +1,11 @@
+import { Interface } from "readline";
 import { z } from "zod";
-
+export type userData = {
+	id: string;
+	name: string;
+	email: string;
+	avatar: any;
+};
 export const SignUpSchema = z.object({
 	name: z.string().min(2).max(50),
 	email: z.string().email(),

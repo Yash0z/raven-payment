@@ -35,6 +35,6 @@ app.on(["POST", "GET"], "/auth/*", (c) => {
 //routes
 import userRouter from "./routes/userRoute";
 
-const routes = app.route("/authentication", userRouter);
+const routes = app.route("/user", userRouter);
 export type AppType = typeof routes;
 export default app;

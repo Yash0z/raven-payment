@@ -31,13 +31,11 @@ import {
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Bird } from "lucide-react";
+import { useAtom } from "jotai";
+import { userAtom } from "@/atoms/userAtom";
+import { useHydrateUser } from "@/utils/hydrate.user";
 
 const data = {
-	user: {
-		name: "shadcn",
-		email: "m@example.com",
-		avatar: "",
-	},
 	navMain: [
 		{
 			title: "Dashboard",
@@ -145,6 +143,8 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+	useHydrateUser();
+	const [user, setUser] = useAtom(userAtom);
 	return (
 		<Sidebar collapsible='offcanvas' {...props}>
 			<SidebarHeader>
@@ -170,7 +170,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				<NavSecondary items={data.navSecondary} className='mt-auto' />
 			</SidebarContent>
 			<SidebarFooter>
-				<NavUser user={data.user} />
+				<NavUser user={user} />
 			</SidebarFooter>
 		</Sidebar>
 	);

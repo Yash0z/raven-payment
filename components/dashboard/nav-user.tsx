@@ -1,9 +1,7 @@
 "use client";
-
 import {
 	IconCreditCard,
 	IconDotsVertical,
-	IconLogout,
 	IconNotification,
 	IconUserCircle,
 } from "@tabler/icons-react";
@@ -37,9 +35,9 @@ import {
 	AlertDialogTitle,
 } from "../ui/alert-dialog";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { authClient } from "@/lib/auth-client";
-import { toast } from "sonner";
+import { useAtom } from "jotai";
+import { userAtom } from "@/atoms/userAtom";
+import { SignOut } from "@/utils/sign-out";
 
 export function NavUser({
 	user,
@@ -47,39 +45,18 @@ export function NavUser({
 	user: {
 		name: string;
 		email: string;
-		avatar: string;
+		avatar: any;
 	};
 }) {
 	const router = useRouter();
-	const [isAlertOpen, setIsAlertOpen] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
-
-	const logout = async () => {
-		setIsLoading(true);
-		try {
-			await authClient.signOut({
-				fetchOptions: {
-					onSuccess: () => {
-						toast("Signed Out successfully");
-						router.push("/sign-in");
-					},
-				},
-			});
-		} catch (error) {
-			toast.error("Logout failed. Please try again.");
-			setIsLoading(false);
-			setIsAlertOpen(true);
-		} finally {
-			// This ensures the loading state is reset even if an error occurs
-			setIsLoading(false);
-		}
-	};
+	const [_, setUser] = useAtom(userAtom);
+	const handleSignOut = () => SignOut(setUser, router);
 	const { isMobile } = useSidebar();
 
 	return (
 		<SidebarMenu>
 			<SidebarMenuItem>
-				<AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+				<AlertDialog>
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<SidebarMenuButton
@@ -87,10 +64,10 @@ export function NavUser({
 								className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
 							>
 								<Avatar className='h-8 w-8 rounded-lg grayscale'>
-									<AvatarImage src={user.avatar} alt={user.name} />
+									{/* <AvatarImage src={user.avatar} alt={user.name} />
 									<AvatarFallback className='rounded-lg'>
 										CN
-									</AvatarFallback>
+									</AvatarFallback> */}
 								</Avatar>
 								<div className='grid flex-1 text-left text-sm leading-tight'>
 									<span className='truncate font-medium'>
@@ -119,10 +96,10 @@ export function NavUser({
 									</Avatar>
 									<div className='grid flex-1 text-left text-sm leading-tight'>
 										<span className='truncate font-medium'>
-											{user.name}
+											{user?.name}
 										</span>
 										<span className='text-zinc-500 truncate text-xs dark:text-zinc-400'>
-											{user.email}
+											{user?.email}
 										</span>
 									</div>
 								</div>
@@ -144,12 +121,7 @@ export function NavUser({
 							</DropdownMenuGroup>
 							<DropdownMenuSeparator />
 							<AlertDialogTrigger asChild>
-								<DropdownMenuItem
-									onSelect={(e) => {
-										e.preventDefault();
-										setIsAlertOpen(true);
-									}}
-								>
+								<DropdownMenuItem>
 									<LogOut />
 									Log out
 								</DropdownMenuItem>
@@ -166,14 +138,9 @@ export function NavUser({
 								</AlertDialogDescription>
 							</AlertDialogHeader>
 							<AlertDialogFooter>
-								<AlertDialogCancel disabled={isLoading}>
-									Cancel
-								</AlertDialogCancel>
-								<AlertDialogAction
-									onClick={logout}
-									disabled={isLoading}
-								>
-									{isLoading ? "Logging out..." : "Continue"}
+								<AlertDialogCancel>Cancel</AlertDialogCancel>
+								<AlertDialogAction onClick={handleSignOut}>
+									Continue
 								</AlertDialogAction>
 							</AlertDialogFooter>
 						</AlertDialogContent>

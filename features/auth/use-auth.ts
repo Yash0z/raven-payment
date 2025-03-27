@@ -2,10 +2,15 @@ import { authClient } from "@/lib/auth-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useAtom } from "jotai";
+import { userAtom } from "@/atoms/userAtom";
+import { persistUser } from "@/utils/hydrate.user";
 
 export const useSignUp = () => {
 	//   const queryClient = useQueryClient();
+
 	const router = useRouter();
+	const [_, setUser] = useAtom(userAtom);
 
 	const query = useMutation({
 		mutationKey: ["sign-up"],
@@ -16,6 +21,18 @@ export const useSignUp = () => {
 				name: values.name,
 				callbackURL: "/dashboard",
 			});
+			if (data && data.user) {
+				const userData = {
+					name: data.user.name,
+					id: data.user.id,
+					email: data.user.email,
+					avatar: data.user.image,
+				};
+				setUser(userData);
+				persistUser(userData);
+			} else {
+				throw new Error("Invalid response: data or user is null");
+			}
 
 			if (error) throw error;
 			return data;
@@ -27,6 +44,7 @@ export const useSignUp = () => {
 			toast("Sign-up successfull", {
 				description: "Welcome",
 			});
+
 			router.push("/dashboard");
 		},
 		onError: (error) => {
@@ -41,15 +59,28 @@ export const useSignUp = () => {
 
 export const useSignIn = () => {
 	//   const queryClient = useQueryClient();
+	const [_, setUser] = useAtom(userAtom);
 
 	const query = useMutation({
-		mutationKey: ["sing-in"],
+		mutationKey: ["sign-in"],
 		mutationFn: async (values: any) => {
 			const { data, error } = await authClient.signIn.email({
 				email: values.email,
 				password: values.password,
 				callbackURL: "/dashboard",
 			});
+			if (data && data.user) {
+				const userData = {
+					name: data.user.name,
+					id: data.user.id,
+					email: data.user.email,
+               avatar: data.user.image,
+				};
+				setUser(userData);
+				persistUser(userData);
+			} else {
+				throw new Error("Invalid response: data or user is null");
+			}
 
 			if (error) throw error;
 			return data;

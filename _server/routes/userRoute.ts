@@ -7,7 +7,7 @@ const userRouter = new Hono<{
 		session: typeof auth.$Infer.Session.session | null;
 	};
 }>()
-	.get("/user", (c) => {
+	.get("/data", (c) => {
 		console.log("This is user", c.get("user"));
 		return c.json({ message: "User", user: c.get("user") });
 	})
