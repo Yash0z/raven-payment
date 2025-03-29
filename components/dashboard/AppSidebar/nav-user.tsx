@@ -45,7 +45,7 @@ export function NavUser({
 	user: {
 		name: string;
 		email: string;
-		avatar: any;
+		avatar: string;
 	};
 }) {
 	const router = useRouter();
