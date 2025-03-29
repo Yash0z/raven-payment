@@ -45,6 +45,7 @@ export const useSignUp = () => {
 		},
 		onSuccess: () => {
 			toast("Sign-up successfull", {
+				position: "top-right",
 				description: "Welcome",
 			});
 
@@ -52,6 +53,7 @@ export const useSignUp = () => {
 		},
 		onError: (error) => {
 			toast("Sign-up failed", {
+				position: "top-right",
 				description: error.message,
 			});
 		},
@@ -93,11 +95,13 @@ export const useSignIn = () => {
 		},
 		onSuccess: () => {
 			toast("Sign-in successfull", {
+				position: "top-right",
 				description: "Welcome",
 			});
 		},
 		onError: (error) => {
 			toast("Sign-in failed", {
+				position: "top-right",
 				description: error.message,
 			});
 		},

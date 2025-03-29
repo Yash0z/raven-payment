@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Loader2, SendHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -65,6 +65,7 @@ export function ContractForm() {
 				<CardContent>
 					<Form {...form}>
 						<form
+							aria-disabled={isPending}
 							onSubmit={form.handleSubmit(onSubmit)}
 							className='space-y-8 md:space-y-10   font-satoshi-regular font-bold '
 						>
@@ -297,15 +298,24 @@ export function ContractForm() {
 								/>
 							</div>
 
-							<div className='flex justify-end pt-4'>
+							<div className='flex  items-center  justify-end pt-4'>
 								<Button
 									type='button'
 									variant='outline'
-									className='mr-2'
+									className='mr-2 min-w-20 text-lg font-cabinet-medium hover:bg-muted-foreground/20'
 								>
 									Back
 								</Button>
-								<Button type='submit'>Continue</Button>
+								<Button
+									type='submit'
+									className='min-w-20 text-lg font-cabinet-medium'
+								>
+									{isPending ? (
+										<Loader2 className='animate-spin h-5 w-5' />
+									) : (
+										"Send"
+									)}
+								</Button>
 							</div>
 						</form>
 					</Form>

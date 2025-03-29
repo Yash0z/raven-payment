@@ -3,6 +3,7 @@ import { userAtom } from "@/atoms/userAtom";
 import { Button } from "@/components/ui/button";
 import { useAtom } from "jotai";
 import { Plus } from "lucide-react";
+import { redirect } from "next/navigation";
 
 export const Box: React.FC = () => {
 	const [user] = useAtom(userAtom);
@@ -25,6 +26,9 @@ export const Box: React.FC = () => {
 						className='text-muted-foreground m-1 text-lg p-3 border-primary hover:bg-primary mb-10'
 						size='lg'
 						variant='outline'
+						onClick={() => {
+							redirect("/contract/create-contract");
+						}}
 					>
 						Create <Plus className='mt-0.9' />
 					</Button>

@@ -27,11 +27,17 @@ export const useContract = () => {
 
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["contracts"] });
-			toast("Contract Approval sent successfully");
+			toast("Contract Approval sent successfully", {
+				position: "top-right",
+            
+			});
 			router.push("/dashboard");
 		},
 		onError: (error: any) => {
-			toast("Contract Approval sent successfully", error);
+			toast("Contract Approval sent successfully", {
+				description: error,
+				position: "top-right",
+			});
 		},
 	});
 	return query;

@@ -105,7 +105,7 @@ export function SignInForm({
 									className='w-full  text-lg font-cabinet-medium'
 								>
 									{isPending ? (
-										<Loader2 className='animate-spin h-4 w-4' />
+										<Loader2 className='animate-spin h-4 w-4' /> 
 									) : (
 										"Sign in"
 									)}
@@ -170,6 +170,7 @@ export function SignInForm({
 
 						<div className='relative hidden md:block m-1 '>
 							<Image
+								fill={true}
 								src='/assets/cover.jpeg'
 								alt='Image'
 								className='absolute  h-full w-full object-cover dark:brightness-[0.2] dark:grayscale rounded-sm'
