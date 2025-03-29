@@ -19,7 +19,7 @@ export const user = pgTable("user", {
 	image: text("image"),
 	createdAt: timestamp("created_at").notNull(),
 	updatedAt: timestamp("updated_at").notNull(),
-	MerchentId: text("_merchent_id"),
+	MerchentId: text("_merchent_id").notNull(),
 	Contacts: jsonb("_contacts"),
 });
 
@@ -64,7 +64,13 @@ export const contract = pgTable("contract", {
 	creationDate: timestamp("creation_date").notNull(), // Creation Date
 	createdBy: text("created_by")
 		.notNull()
-		.references(() => user.id, { onDelete: "cascade" }), // Creator of the Contract
+		.references(() => user.id, { onDelete: "cascade" }),
+	recipientEmail: text("recipient_Email")
+		.notNull()
+		.references(() => user.email, { onDelete: "cascade" }),
+	recipientId: text("recipient_id")
+		.notNull()
+		.references(() => user.MerchentId, { onDelete: "cascade" }), // Creator of the Contract
 	expirationDate: timestamp("expiration_date").notNull(), // Expiration Date
 	agreement: text("agreement").notNull(), // Agreement Details
 	milestones: integer("milestones").notNull(), // Number of Milestones

@@ -5,8 +5,9 @@
  * @param email - The email address to convert (e.g., "abc@gmail.com")
  * @returns The generated merchant ID (e.g., "abc@ok123")
  */
-export function generateMerchantId(email: string): string {
+export function generateMerchantId(): string {
 	// Extract the username part (before the @ symbol)
+	const email = "abc@gmail.com";
 	const username = email.split("@")[0];
 
 	// Generate 3 random digits

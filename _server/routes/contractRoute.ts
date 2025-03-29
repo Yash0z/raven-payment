@@ -1,15 +1,16 @@
 import { Hono } from "hono";
 import { Context } from "../utils/Authcontext";
 import { zValidator } from "@hono/zod-validator";
-import { contract, ContractSchema } from "../modules/models/schema";
+import { contract, ContractSchema, user } from "../modules/models/schema";
 import { db } from "../modules/db/db";
 import { generateHEXID } from "../utils/generateHEXID";
 import { generateTimeline } from "../utils/generateTimeline";
+import { eq } from "drizzle-orm";
 
 const contractRouter = new Hono<Context>()
-	.get("/data", (c) => {
-		return c.json({ message: c.get("user") });
-	})
+	// .get("/data", (c) => {
+	// 	return c.json({ message: c.get("user") });
+	// })
 
 	.post(
 		"/new",
@@ -20,6 +21,7 @@ const contractRouter = new Hono<Context>()
 				createdBy: true,
 				status: true,
 				timeline: true,
+				recipientId: true,
 			})
 		),
 		async (c) => {
@@ -42,6 +44,17 @@ const contractRouter = new Hono<Context>()
 
 			console.log("Timeline:", timeline);
 
+			const recipient = await db.query.user.findFirst({
+				where: eq(user.email, values.recipientEmail),
+				columns: {
+					MerchentId: true,
+				},
+			});
+
+			// Handle case when recipient is not found
+			if (!recipient) {
+				return c.json({ error: "Recipient not found" }, 404);
+			}
 			const [data] = await db
 				.insert(contract)
 				.values({
@@ -50,6 +63,8 @@ const contractRouter = new Hono<Context>()
 					amount: values.amount.toString(),
 					agreement: values.agreement,
 					status: initialStatus,
+					recipientEmail: values.recipientEmail,
+					recipientId: recipient.MerchentId,
 					createdBy: inUser.id,
 					creationDate: values.creationDate,
 					expirationDate: values.expirationDate,

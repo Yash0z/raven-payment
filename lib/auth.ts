@@ -1,6 +1,5 @@
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth } from "better-auth";
-import { createAuthMiddleware } from "better-auth/api";
 import { db } from "@/_server/modules/db/db";
 import { schema } from "@/_server/modules/models/schema";
 
