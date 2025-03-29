@@ -2,7 +2,7 @@ export type userData = {
 	id: string;
 	name: string;
 	email: string;
-	avatar: any;
+	avatar: string | null | undefined;
 };
 export type authSignUp = {
 	email: string;

@@ -1,5 +1,5 @@
 import { userAtom } from "@/atoms/userAtom";
-import { userData } from "@/types";
+import { userData } from "@/types/types";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 

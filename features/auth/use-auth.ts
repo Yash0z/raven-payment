@@ -1,5 +1,5 @@
 import { authClient } from "@/lib/auth-client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
