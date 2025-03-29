@@ -13,10 +13,10 @@ export const Box: React.FC = () => {
 		<>
 			<main className='flex flex-col h-full justify-between gap-10 px-5'>
 				<div className='flex gap-2 items-center'>
-					<h1 className='text-[2.4rem] text-muted-foreground font-zodiak-regular '>
+					<h1 className='text-2xl md:text-3xl  text-muted-foreground font-zodiak-regular '>
 						Hello,
 					</h1>
-					<h1 className='text-[2.4rem] text-muted-foreground font-zodiak-regular '>
+					<h1 className='text-2xl md:text-3xl text-muted-foreground font-zodiak-regular '>
 						{username}
 					</h1>
 				</div>

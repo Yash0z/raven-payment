@@ -2,22 +2,20 @@
 
 import * as React from "react";
 import {
+	IconBuildingBank,
 	IconCamera,
-	IconChartBar,
-	IconDashboard,
-	IconDatabase,
+	IconContract,
+	IconCurrencyRupee,
 	IconFileAi,
 	IconFileDescription,
-	IconFileWord,
-	IconFolder,
 	IconHelp,
-	IconListDetails,
-	IconReport,
+	IconLayoutDashboardFilled,
+	IconLogs,
 	IconSettings,
+	IconSignature,
 	IconUsers,
 } from "@tabler/icons-react";
 
-import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/dashboard/AppSidebar/nav-main";
 import { NavSecondary } from "@/components/dashboard/AppSidebar/nav-secondary";
 import {
@@ -29,7 +27,6 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Bird } from "lucide-react";
 import { useAtom } from "jotai";
 import { userAtom } from "@/atoms/userAtom";
 import { useHydrateUser } from "@/hooks/user/hydrate.user";
@@ -40,26 +37,36 @@ const data = {
 		{
 			title: "Dashboard",
 			url: "#",
-			icon: IconDashboard,
+			icon: IconLayoutDashboardFilled,
 		},
 		{
-			title: "Lifecycle",
-			url: "#",
-			icon: IconListDetails,
+			title: "My Contracts",
+			url: "/my-contract",
+			icon: IconLogs,
 		},
 		{
-			title: "Analytics",
-			url: "#",
-			icon: IconChartBar,
+			title: "Contracts",
+			url: "/contract",
+			icon: IconContract,
 		},
 		{
-			title: "Projects",
-			url: "#",
-			icon: IconFolder,
+			title: "Approvals",
+			url: "/apporvals",
+			icon: IconSignature,
 		},
 		{
-			title: "Team",
-			url: "#",
+			title: "Payments",
+			url: "/payment",
+			icon: IconBuildingBank,
+		},
+		{
+			title: "Transactions",
+			url: "/transaction",
+			icon: IconCurrencyRupee,
+		},
+		{
+			title: "Contacts",
+			url: "/contacts",
 			icon: IconUsers,
 		},
 	],
@@ -123,23 +130,6 @@ const data = {
 			icon: IconHelp,
 		},
 	],
-	documents: [
-		{
-			name: "Data Library",
-			url: "#",
-			icon: IconDatabase,
-		},
-		{
-			name: "Reports",
-			url: "#",
-			icon: IconReport,
-		},
-		{
-			name: "Word Assistant",
-			url: "#",
-			icon: IconFileWord,
-		},
-	],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -147,16 +137,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	const [user, setUser] = useAtom(userAtom);
 	return (
 		<Sidebar collapsible='offcanvas' {...props}>
-			<SidebarHeader>
+			<SidebarHeader className='pt-7.5 '>
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton
 							asChild
-							className='data-[slot=sidebar-menu-button]:!p-1.5'
+							className='data-[slot=sidebar-menu-button]:!p-2 flex justify-center'
 						>
 							<a href='#'>
-								<Bird className='!size-5' />
-								<span className='text-xl font-haskoy-bold'>
+								<span className='text-3xl md:text-4xl font-haskoy-extrabold text-accent'>
 									Raven Inc.
 								</span>
 							</a>
@@ -164,9 +153,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 					</SidebarMenuItem>
 				</SidebarMenu>
 			</SidebarHeader>
-			<SidebarContent>
+			<SidebarContent className='flex flex-col'>
 				<NavMain items={data.navMain} />
-				<NavDocuments items={data.documents} />
 				<NavSecondary items={data.navSecondary} className='mt-auto' />
 			</SidebarContent>
 			<SidebarFooter>

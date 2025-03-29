@@ -22,6 +22,7 @@ export function generateTimeline(
 			id: i + 1,
 			payment: milestoneAmount.toFixed(2),
 			date: format(milestoneDate, "yy-MM-dd"),
+			status: "pending",
 		};
 	});
 }
