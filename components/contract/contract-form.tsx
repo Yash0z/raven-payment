@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { format } from "date-fns";
-import { CalendarIcon, Loader2, SendHorizontal } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -65,12 +65,12 @@ export function ContractForm() {
 				<CardContent>
 					<Form {...form}>
 						<form
-							aria-disabled={isPending}
 							onSubmit={form.handleSubmit(onSubmit)}
 							className='space-y-8 md:space-y-10   font-satoshi-regular font-bold '
 						>
 							<div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
 								<FormField
+									disabled={isPending}
 									control={form.control}
 									name='contractName'
 									render={({ field }) => (
@@ -91,6 +91,7 @@ export function ContractForm() {
 									)}
 								/>
 								<FormField
+									disabled={isPending}
 									control={form.control}
 									name='recipientEmail'
 									render={({ field }) => (
@@ -113,6 +114,7 @@ export function ContractForm() {
 							</div>
 
 							<FormField
+								disabled={isPending}
 								control={form.control}
 								name='agreement'
 								render={({ field }) => (
@@ -134,6 +136,7 @@ export function ContractForm() {
 							/>
 							<div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
 								<FormField
+									disabled={isPending}
 									control={form.control}
 									name='amount'
 									render={({ field }) => (
@@ -154,6 +157,7 @@ export function ContractForm() {
 								/>
 
 								<FormField
+									disabled={isPending}
 									control={form.control}
 									name='milestones'
 									render={({ field }) => (
@@ -176,6 +180,7 @@ export function ContractForm() {
 
 							<div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
 								<FormField
+									disabled={isPending}
 									control={form.control}
 									name='creationDate'
 									render={({ field }) => (
@@ -187,6 +192,7 @@ export function ContractForm() {
 												<PopoverTrigger asChild>
 													<FormControl>
 														<Button
+															disabled={isPending}
 															variant={"outline"}
 															className={cn(
 																"w-full pl-3 text-left text-muted-foreground hover:bg-background border border-muted-foreground/60",
@@ -237,6 +243,7 @@ export function ContractForm() {
 								/>
 
 								<FormField
+									disabled={isPending}
 									control={form.control}
 									name='expirationDate'
 									render={({ field }) => (
@@ -248,6 +255,7 @@ export function ContractForm() {
 												<PopoverTrigger asChild>
 													<FormControl>
 														<Button
+															disabled={isPending}
 															variant={"outline"}
 															className={cn(
 																"w-full pl-3 text-left text-muted-foreground hover:bg-background border border-muted-foreground/60",
@@ -307,6 +315,7 @@ export function ContractForm() {
 									Back
 								</Button>
 								<Button
+									disabled={isPending}
 									type='submit'
 									className='min-w-20 text-lg font-cabinet-medium'
 								>
