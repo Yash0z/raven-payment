@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { userAtom } from "@/atoms/userAtom";
 import { persistUser } from "@/hooks/user/hydrate.user";
+import { authSignIn, authSignUp } from "@/types/types";
 import { generateMerchantId } from "@/utils/generateMerchentId";
-import { authSignOut, authSignIn } from "@/types/types";
 
 export const useSignUp = () => {
 	//   const queryClient = useQueryClient();
@@ -16,11 +16,12 @@ export const useSignUp = () => {
 
 	const query = useMutation({
 		mutationKey: ["sign-up"],
-		mutationFn: async (values: authSignOut) => {
+		mutationFn: async (values: authSignUp) => {
 			const { data, error } = await authClient.signUp.email({
 				email: values.email,
 				password: values.password,
 				name: values.name,
+				merchentId: generateMerchantId(values.email),
 				callbackURL: "/dashboard",
 			});
 			if (data && data.user) {

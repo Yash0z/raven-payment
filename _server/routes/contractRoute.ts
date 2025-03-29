@@ -47,7 +47,7 @@ const contractRouter = new Hono<Context>()
 			const recipient = await db.query.user.findFirst({
 				where: eq(user.email, values.recipientEmail),
 				columns: {
-					MerchentId: true,
+					merchentId: true,
 				},
 			});
 
@@ -64,8 +64,8 @@ const contractRouter = new Hono<Context>()
 					agreement: values.agreement,
 					status: initialStatus,
 					recipientEmail: values.recipientEmail,
-					recipientId: recipient.MerchentId,
-					createdBy: inUser.id,
+					recipientId: recipient.merchentId,
+					createdBy: inUser.name,
 					creationDate: values.creationDate,
 					expirationDate: values.expirationDate,
 					milestones: values.milestones,

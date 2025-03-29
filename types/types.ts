@@ -4,7 +4,7 @@ export type userData = {
 	email: string;
 	avatar: any;
 };
-export type authSignOut = {
+export type authSignUp = {
 	email: string;
 	password: string;
 	name: string;

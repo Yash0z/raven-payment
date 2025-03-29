@@ -6,16 +6,11 @@ import { schema } from "@/_server/modules/models/schema";
 export const auth = betterAuth({
 	user: {
 		additionalFields: {
-			MerchentId: {
+			merchentId: {
 				type: "string",
+				defaultValue: "",
 				required: true,
-				input: true, // don't allow user to set role
-			},
-			Contacts: {
-				type: "string",
-				required: false,
-				defaultValue: null,
-				input: false, // don't allow user to set role
+				input: true,
 			},
 		},
 	},

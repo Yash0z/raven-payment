@@ -7,7 +7,6 @@ import {
 	integer,
 	decimal,
 	jsonb,
-	json,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -19,8 +18,7 @@ export const user = pgTable("user", {
 	image: text("image"),
 	createdAt: timestamp("created_at").notNull(),
 	updatedAt: timestamp("updated_at").notNull(),
-	MerchentId: text("_merchent_id").notNull(),
-	Contacts: jsonb("_contacts"),
+   merchentId: text("_merchent_id").notNull(),
 });
 
 export const session = pgTable("session", {
@@ -61,16 +59,16 @@ export const contract = pgTable("contract", {
 	status: text("status", {
 		enum: ["active", "cancelled", "completed"],
 	}).notNull(), // Contract Status
-	creationDate: timestamp("creation_date").notNull(), // Creation Date
-	createdBy: text("created_by")
-		.notNull()
-		.references(() => user.id, { onDelete: "cascade" }),
+	creationDate: timestamp("creation_date").notNull().defaultNow(),
 	recipientEmail: text("recipient_Email")
 		.notNull()
 		.references(() => user.email, { onDelete: "cascade" }),
 	recipientId: text("recipient_id")
 		.notNull()
-		.references(() => user.MerchentId, { onDelete: "cascade" }), // Creator of the Contract
+		.references(() => user.merchentId, { onDelete: "cascade" }), // Creation Date
+	createdBy: text("created_by")
+		.notNull()
+		.references(() => user.id, { onDelete: "cascade" }),
 	expirationDate: timestamp("expiration_date").notNull(), // Expiration Date
 	agreement: text("agreement").notNull(), // Agreement Details
 	milestones: integer("milestones").notNull(), // Number of Milestones
@@ -84,12 +82,32 @@ export const contract = pgTable("contract", {
 	updatedAt: timestamp("updated_at").notNull().defaultNow(), // Last update timestamp
 });
 
+// Milestone Schema
+export const milestone = pgTable("milestone", {
+	id: text("id").primaryKey().notNull(),
+	contractId: text("contract_id")
+		.references(() => contract.hexId)
+		.notNull(),
+	description: text("description").notNull(),
+	expectedCompletionDate: timestamp("expected_completion_date").notNull(),
+	paymentAmount: decimal("payment_amount", {
+		precision: 15,
+		scale: 2,
+	}).notNull(),
+
+	// Milestone approval status
+	status: text("approval_status", {
+		enum: ["pending", "completed"],
+	}),
+	// Actual completion tracking
+	actualCompletionDate: timestamp("actual_completion_date"),
+});
+
 export const schema = {
 	user,
 	session,
 	account,
 };
-
 export const ContractSchema = createInsertSchema(contract).extend({
 	creationDate: z.string().transform((date) => new Date(date)), // Auto-convert to Date
 	expirationDate: z.string().transform((date) => new Date(date)), // Auto-convert to Date

@@ -38,7 +38,6 @@ app.on(["POST", "GET"], "/auth/*", (c) => {
 //routes
 import userRouter from "./routes/userRoute";
 import contractRouter from "./routes/contractRoute";
-
 const routes = app
 	.route("/user", userRouter)
 	.route("/contract", contractRouter);
