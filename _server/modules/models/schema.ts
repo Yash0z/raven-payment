@@ -5,7 +5,7 @@ import {
 	boolean,
 	numeric,
 	integer,
-   decimal,
+	decimal,
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
@@ -16,6 +16,7 @@ export const user = pgTable("user", {
 	image: text("image"),
 	createdAt: timestamp("created_at").notNull(),
 	updatedAt: timestamp("updated_at").notNull(),
+	merchentId: text("merchent_id").notNull(),
 });
 
 export const session = pgTable("session", {
@@ -73,23 +74,26 @@ export const contract = pgTable("contract", {
 	updatedAt: timestamp("updated_at").notNull().defaultNow(), // Last update timestamp
 });
 
-
 // Milestone Schema
-export const milestone = pgTable('milestone', {
-   id: text('id').primaryKey().notNull(),
-   contractId: text('contract_id').references(() => contract.hexId).notNull(),
-   description: text('description').notNull(),
-   expectedCompletionDate: timestamp('expected_completion_date').notNull(),
-   paymentAmount: decimal('payment_amount', { precision: 15, scale: 2 }).notNull(),
-   
-   // Milestone approval status
-   status: text("approval_status", {
+export const milestone = pgTable("milestone", {
+	id: text("id").primaryKey().notNull(),
+	contractId: text("contract_id")
+		.references(() => contract.hexId)
+		.notNull(),
+	description: text("description").notNull(),
+	expectedCompletionDate: timestamp("expected_completion_date").notNull(),
+	paymentAmount: decimal("payment_amount", {
+		precision: 15,
+		scale: 2,
+	}).notNull(),
+
+	// Milestone approval status
+	status: text("approval_status", {
 		enum: ["pending", "completed"],
 	}),
-   // Actual completion tracking
-   actualCompletionDate: timestamp('actual_completion_date'),
-   
- });
+	// Actual completion tracking
+	actualCompletionDate: timestamp("actual_completion_date"),
+});
 
 export const schema = {
 	user,
