@@ -5,9 +5,12 @@ import {
 	boolean,
 	numeric,
 	integer,
-   decimal,
+	decimal,
+	jsonb,
+	json,
 } from "drizzle-orm/pg-core";
-
+import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
 export const user = pgTable("user", {
 	id: text("id").primaryKey(),
 	name: text("name").notNull(),
@@ -16,6 +19,8 @@ export const user = pgTable("user", {
 	image: text("image"),
 	createdAt: timestamp("created_at").notNull(),
 	updatedAt: timestamp("updated_at").notNull(),
+	MerchentId: text("_merchent_id"),
+	Contacts: jsonb("_contacts"),
 });
 
 export const session = pgTable("session", {
@@ -56,14 +61,14 @@ export const contract = pgTable("contract", {
 	status: text("status", {
 		enum: ["active", "cancelled", "completed"],
 	}).notNull(), // Contract Status
-	creationDate: timestamp("creation_date").notNull().defaultNow(), // Creation Date
+	creationDate: timestamp("creation_date").notNull(), // Creation Date
 	createdBy: text("created_by")
 		.notNull()
 		.references(() => user.id, { onDelete: "cascade" }), // Creator of the Contract
 	expirationDate: timestamp("expiration_date").notNull(), // Expiration Date
 	agreement: text("agreement").notNull(), // Agreement Details
 	milestones: integer("milestones").notNull(), // Number of Milestones
-	timeline: text("timeline").notNull(), // JSON string containing milestone dates & payments
+	timeline: jsonb("timeline").notNull(), // JSON string containing milestone dates & payments
 	approvalStatus: text("approval_status", {
 		enum: ["pending", "rejected", "accepted"],
 	})
@@ -73,26 +78,13 @@ export const contract = pgTable("contract", {
 	updatedAt: timestamp("updated_at").notNull().defaultNow(), // Last update timestamp
 });
 
-
-// Milestone Schema
-export const milestone = pgTable('milestone', {
-   id: text('id').primaryKey().notNull(),
-   contractId: text('contract_id').references(() => contract.hexId).notNull(),
-   description: text('description').notNull(),
-   expectedCompletionDate: timestamp('expected_completion_date').notNull(),
-   paymentAmount: decimal('payment_amount', { precision: 15, scale: 2 }).notNull(),
-   
-   // Milestone approval status
-   status: text("approval_status", {
-		enum: ["pending", "completed"],
-	}),
-   // Actual completion tracking
-   actualCompletionDate: timestamp('actual_completion_date'),
-   
- });
-
 export const schema = {
 	user,
 	session,
 	account,
 };
+
+export const ContractSchema = createInsertSchema(contract).extend({
+	creationDate: z.string().transform((date) => new Date(date)), // Auto-convert to Date
+	expirationDate: z.string().transform((date) => new Date(date)), // Auto-convert to Date
+});

@@ -3,9 +3,12 @@ import { auth } from "@/lib/auth";
 import { Context } from "./utils/Authcontext";
 import SessionMiddleware from "./middlewares/Session.Middleware";
 import { cors } from "hono/cors";
+import { logger } from "hono/logger";
+
 const app = new Hono<Context>().basePath("/api");
 
 //cors
+app.use(logger());
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [];
 app.use(
 	"*", // or replace with "*" to enable cors for all routes
@@ -34,7 +37,10 @@ app.on(["POST", "GET"], "/auth/*", (c) => {
 
 //routes
 import userRouter from "./routes/userRoute";
+import contractRouter from "./routes/contractRoute";
 
-const routes = app.route("/user", userRouter);
+const routes = app
+	.route("/user", userRouter)
+	.route("/contract", contractRouter);
 export type AppType = typeof routes;
 export default app;
