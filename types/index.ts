@@ -16,7 +16,7 @@ export const SignInSchema = z.object({
 });
 
 export const ContractSchema = z.object({
-	contractname: z.string().min(2, {
+	contractName: z.string().min(2, {
 		message: "Name must be at least 2 characters.",
 	}),
 	recipientEmail: z.string().email({

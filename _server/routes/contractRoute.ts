@@ -59,7 +59,7 @@ const contractRouter = new Hono<Context>()
 				.insert(contract)
 				.values({
 					hexId: generateHEXID(),
-					name: values.name,
+					contractName: values.contractName,
 					amount: values.amount.toString(),
 					agreement: values.agreement,
 					status: initialStatus,

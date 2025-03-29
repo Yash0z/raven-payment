@@ -25,14 +25,16 @@ import {
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { ContractSchema } from "@/types";
+import { useContract } from "@/features/contract/use-contract";
 
 export function ContractForm() {
 	const today = format(new Date(), "yyyy-MM-dd");
 
+	const { mutate, isPending } = useContract();
 	const form = useForm<z.infer<typeof ContractSchema>>({
 		resolver: zodResolver(ContractSchema),
 		defaultValues: {
-			contractname: "",
+			contractName: "",
 			recipientEmail: "",
 			amount: "",
 			agreement: "",
@@ -43,6 +45,7 @@ export function ContractForm() {
 	});
 
 	function onSubmit(values: z.infer<typeof ContractSchema>) {
+		mutate(values);
 		console.log(values);
 		// You can handle form submission here
 	}
@@ -50,7 +53,9 @@ export function ContractForm() {
 	return (
 		<div className='relative mt-10 w-full max-w-3xl p-2.5 py-5 '>
 			<div className='text-left mb-6 space-y-2'>
-				<h1 className='text-3xl ml-6 font-haskoy-bold'>Create a Contract</h1>
+				<h1 className='text-3xl ml-6 font-haskoy-bold'>
+					Create a Contract
+				</h1>
 				<p className='text-md ml-6 text-secondary-foreground/50'>
 					Fill the details that are to be send to recipient
 				</p>
@@ -66,7 +71,7 @@ export function ContractForm() {
 							<div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
 								<FormField
 									control={form.control}
-									name='contractname'
+									name='contractName'
 									render={({ field }) => (
 										<FormItem>
 											<FormLabel className='text-[0.8em] text-secondary-foreground/70'>

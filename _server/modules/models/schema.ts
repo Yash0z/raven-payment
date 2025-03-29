@@ -55,7 +55,7 @@ export const account = pgTable("account", {
 
 export const contract = pgTable("contract", {
 	hexId: text("hex_id").primaryKey(), // Unique HEXID (3 letters + 3 numbers)
-	name: text("name").notNull(), // Contract Name
+	contractName: text("name").notNull(), // Contract Name
 	amount: numeric("amount", { precision: 10, scale: 2 }).notNull(), // Contract Amount
 	status: text("status", {
 		enum: ["active", "cancelled", "completed"],
