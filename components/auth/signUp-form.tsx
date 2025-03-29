@@ -17,7 +17,7 @@ import {
 import { SignUpSchema } from "@/types";
 import { useSignUp } from "@/features/auth/use-auth";
 import { Loader2 } from "lucide-react";
-
+import Image from "next/image";
 export function SignUpForm({
 	className,
 	...props
@@ -190,7 +190,7 @@ export function SignUpForm({
 						</div>
 
 						<div className='relative hidden md:block m-1 '>
-							<img
+							<Image
 								src='/assets/cover.jpeg'
 								alt='Image'
 								className='absolute  h-full w-full object-cover dark:brightness-[0.2] dark:grayscale rounded-sm'

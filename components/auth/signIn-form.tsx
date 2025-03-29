@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import Image from "next/image";
 import {
 	Form,
 	FormControl,
@@ -156,7 +157,7 @@ export function SignInForm({
 								</div>
 
 								<div className='text-center text-[0.8em] '>
-									Don't have an account?{" "}
+									Don`&apos;`t have an account?{" "}
 									<a
 										href='/sign-up'
 										className='underline underline-offset-4'
@@ -168,7 +169,7 @@ export function SignInForm({
 						</div>
 
 						<div className='relative hidden md:block m-1 '>
-							<img
+							<Image
 								src='/assets/cover.jpeg'
 								alt='Image'
 								className='absolute  h-full w-full object-cover dark:brightness-[0.2] dark:grayscale rounded-sm'

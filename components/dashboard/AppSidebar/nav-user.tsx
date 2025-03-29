@@ -49,7 +49,7 @@ export function NavUser({
 	};
 }) {
 	const router = useRouter();
-	const [_, setUser] = useAtom(userAtom);
+	const [, setUser] = useAtom(userAtom);
 	const handleSignOut = () => SignOut(setUser, router);
 	const { isMobile } = useSidebar();
 

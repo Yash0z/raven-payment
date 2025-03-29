@@ -134,7 +134,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	useHydrateUser();
-	const [user, setUser] = useAtom(userAtom);
+	const [user] = useAtom(userAtom);
 	return (
 		<Sidebar collapsible='offcanvas' {...props}>
 			<SidebarHeader className='pt-7.5 '>

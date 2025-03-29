@@ -2,7 +2,7 @@
 import { userAtom } from "@/atoms/userAtom";
 import { Button } from "@/components/ui/button";
 import { useAtom } from "jotai";
-import { Plus, SquarePlus } from "lucide-react";
+import { Plus } from "lucide-react";
 
 export const Box: React.FC = () => {
 	const [user] = useAtom(userAtom);
