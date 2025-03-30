@@ -26,6 +26,7 @@ import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { ContractSchema } from "@/types";
 import { useContract } from "@/features/contract/use-contract";
+import { redirect } from "next/navigation";
 
 export function ContractForm() {
 	const today = format(new Date(), "yyyy-MM-dd");
@@ -308,6 +309,9 @@ export function ContractForm() {
 
 							<div className='flex  items-center  justify-end pt-4'>
 								<Button
+									onClick={() => {
+										redirect("/contract/create-contract");
+									}}
 									type='button'
 									variant='outline'
 									className='mr-2 min-w-20 text-lg font-cabinet-medium hover:bg-muted-foreground/20'

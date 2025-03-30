@@ -9,6 +9,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { redirect } from "next/navigation";
 
 export function NavMain({
 	items,
@@ -30,6 +31,9 @@ export function NavMain({
 						<SidebarMenuItem key={item.title}>
 							<SidebarMenuButton
 								tooltip={item.title}
+								onClick={() => {
+									redirect(item.url);
+								}}
 								className='space-x-4 py-8 px-6  hover:border-l-2 hover:border-primary/90 hover:bg-primary/5'
 							>
 								{item.icon && (
