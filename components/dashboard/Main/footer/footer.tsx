@@ -7,16 +7,13 @@ export const Footer: React.FC = () => {
 	const { data, isPending } = getActiveContract();
 	const formatDate = (dateString: string) => {
 		if (!dateString) return "Not specified";
-		try {
-			const date = new Date(dateString);
-			return date.toLocaleDateString("en-GB", {
-				day: "numeric",
-				month: "long",
-				year: "numeric",
-			});
-		} catch (error) {
-			return "Invalid date";
-		}
+
+		const date = new Date(dateString);
+		return date.toLocaleDateString("en-GB", {
+			day: "numeric",
+			month: "long",
+			year: "numeric",
+		});
 	};
 	return (
 		<>
