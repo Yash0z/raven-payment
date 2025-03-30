@@ -62,7 +62,7 @@ const contractRouter = new Hono<Context>()
 					status: initialStatus,
 					recipientEmail: values.recipientEmail,
 					recipientId: recipient.merchentId,
-					createdBy: inUser.name,
+					createdBy: inUser.email,
 					creationDate: values.creationDate,
 					expirationDate: values.expirationDate,
 					milestones: values.milestones,
@@ -85,7 +85,9 @@ const contractRouter = new Hono<Context>()
 		}
 
 		// Query to get active contracts where recipient email matches user's email
-		const [contracts] = await db
+
+		console.time("db-query");
+		const contracts = await db
 			.select()
 			.from(contract)
 			.where(
@@ -94,7 +96,6 @@ const contractRouter = new Hono<Context>()
 					eq(contract.recipientEmail, inUser.email)
 				)
 			);
-
 		return c.json({ contracts }, 200);
 	});
 

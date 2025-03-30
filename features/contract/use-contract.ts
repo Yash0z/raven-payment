@@ -14,7 +14,6 @@ type contractRequestType = InferRequestType<
 
 export const useContract = () => {
 	const queryClient = useQueryClient();
-	const router = useRouter();
 	const query = useMutation<contractResponseType, Error, contractRequestType>({
 		mutationKey: ["contracts"],
 		mutationFn: async (json) => {
@@ -25,16 +24,11 @@ export const useContract = () => {
 			return await res.json();
 		},
 
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["active-contracts"] });
-			toast("Contract Approval sent successfully", {
-				position: "top-right",
-			});
-			router.push("/dashboard");
+		onSuccess: async () => {
+			queryClient.invalidateQueries({ queryKey: ["activeContracts"] });
 		},
-		onError: (error: any) => {
-			toast("Contract Approval sent successfully", {
-				description: error,
+		onError: () => {
+			toast("Contract Approval failed", {
 				position: "top-right",
 			});
 		},
@@ -44,14 +38,21 @@ export const useContract = () => {
 
 export const getActiveContract = () => {
 	const query = useQuery({
-		queryKey: ["active-contracts"],
+		queryKey: ["activeContracts"],
 		queryFn: async () => {
+			console.time("api-fetch");
 			const res = await client.api.contract.active.$get();
+			console.timeEnd("api-fetch");
 			if (!res.ok) {
 				throw new Error("server error");
 			}
 			return await res.json();
 		},
+		// Add specific settings to control refetching behavior
+		staleTime: 60000, // Consider data fresh for 10 seconds
+		refetchOnWindowFocus: false, // Don't refetch on window focus
+		retry: 1, // Only retry once if fails
 	});
+
 	return query;
 };

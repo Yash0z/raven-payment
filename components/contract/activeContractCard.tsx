@@ -38,14 +38,14 @@ export default function ActiveContract({ data }: BankCardProps) {
 
 				<div className='mt-2 mb-2 flex justify-between '>
 					<div className='space-y-2'>
-						<span className='flex flex-col md:flex-row md:gap-0 gap-2 text-muted-foreground text-[0.8em]'>
+						<span className='flex flex-col md:flex-row md:gap-2  text-muted-foreground text-[0.8em]'>
 							<span className='text-muted-foreground'>Created by</span>
 							<span>{data?.createdBy}</span>
 						</span>
 					</div>
 
 					<div className='text-right'>
-						<span className='flex flex-col md:flex-row md:gap-0 gap-2 text-muted-foreground text-[0.8em]'>
+						<span className='flex flex-col md:flex-row md:gap2  text-muted-foreground text-[0.8em]'>
 							<span>{data?.creation}-</span>
 							<span>{data?.expiration}</span>
 						</span>

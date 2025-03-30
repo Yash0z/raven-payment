@@ -5,9 +5,6 @@ import { getActiveContract } from "@/features/contract/use-contract";
 
 export const Footer: React.FC = () => {
 	const { data, isPending } = getActiveContract();
-	if (!data) {
-		return <></>;
-	}
 	const formatDate = (dateString: string) => {
 		if (!dateString) return "Not specified";
 		try {
@@ -21,26 +18,32 @@ export const Footer: React.FC = () => {
 			return "Invalid date";
 		}
 	};
-	const contractData = {
-		contractName: data.contracts.contractName,
-		amount: data.contracts.amount,
-		createdBy: data.contracts.createdBy,
-		creation: formatDate(data.contracts.creationDate),
-		expiration: formatDate(data.contracts.expirationDate),
-		nextDueDate: data.contracts.timeline,
-	};
 	return (
 		<>
 			<h2 className='px-6 font-zodiak-regular mb-7 tex-2xl'>
 				Active Contracts
 			</h2>
-			<main className='flex flex-col h-full justify-between gap-10 px-5 w-full'>
+			<main className='overflow-y-auto h-[380px] py-5 flex  flex-col justify-between gap-2 px-5 w-full'>
 				{isPending ? (
 					<Skeleton />
-				) : contractData ? (
-					<ActiveContract data={contractData} />
 				) : (
-					<div className='text-center py-4'>No active contract found</div>
+					data?.contracts.map((contract, index) => {
+						const contractData = {
+							contractName: contract.contractName,
+							amount: contract.amount,
+							createdBy: contract.createdBy,
+							creation: formatDate(contract.creationDate),
+							expiration: formatDate(contract.expirationDate),
+							nextDueDate: contract.timeline,
+						};
+
+						return (
+							<ActiveContract
+								key={contract.hexId || index}
+								data={contractData}
+							/>
+						);
+					})
 				)}
 			</main>
 		</>

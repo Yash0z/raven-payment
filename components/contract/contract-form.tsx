@@ -71,7 +71,6 @@ export function ContractForm() {
 						>
 							<div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
 								<FormField
-									disabled={isPending}
 									control={form.control}
 									name='contractName'
 									render={({ field }) => (
@@ -81,7 +80,7 @@ export function ContractForm() {
 											</FormLabel>
 											<FormControl>
 												<Input
-													// disabled={isPending}
+													disabled={isPending}
 													className='border border-muted-foreground/60 h-10 focus-visible:ring-1'
 													placeholder='enter contract name'
 													{...field}
@@ -92,7 +91,6 @@ export function ContractForm() {
 									)}
 								/>
 								<FormField
-									disabled={isPending}
 									control={form.control}
 									name='recipientEmail'
 									render={({ field }) => (
@@ -102,7 +100,7 @@ export function ContractForm() {
 											</FormLabel>
 											<FormControl>
 												<Input
-													// disabled={isPending}
+													disabled={isPending}
 													className='border border-muted-foreground/60 h-10 focus-visible:ring-1'
 													placeholder="enter recipient's email"
 													{...field}
@@ -115,7 +113,6 @@ export function ContractForm() {
 							</div>
 
 							<FormField
-								disabled={isPending}
 								control={form.control}
 								name='agreement'
 								render={({ field }) => (
@@ -125,7 +122,7 @@ export function ContractForm() {
 										</FormLabel>
 										<FormControl>
 											<Input
-												// disabled={isPending}
+												disabled={isPending}
 												className='border border-muted-foreground/60 h-10 focus-visible:ring-1'
 												placeholder='enter agreement details'
 												{...field}
@@ -137,7 +134,6 @@ export function ContractForm() {
 							/>
 							<div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
 								<FormField
-									disabled={isPending}
 									control={form.control}
 									name='amount'
 									render={({ field }) => (
@@ -147,6 +143,7 @@ export function ContractForm() {
 											</FormLabel>
 											<FormControl>
 												<Input
+													disabled={isPending}
 													placeholder='0.00'
 													{...field}
 													className='border border-muted-foreground/60 h-10 focus-visible:ring-1'
@@ -158,7 +155,6 @@ export function ContractForm() {
 								/>
 
 								<FormField
-									disabled={isPending}
 									control={form.control}
 									name='milestones'
 									render={({ field }) => (
@@ -168,6 +164,7 @@ export function ContractForm() {
 											</FormLabel>
 											<FormControl>
 												<Input
+													disabled={isPending}
 													placeholder='0.00'
 													{...field}
 													className='border border-muted-foreground/60 text-muted-foreground  h-10 focus-visible:ring-1'
@@ -181,7 +178,6 @@ export function ContractForm() {
 
 							<div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
 								<FormField
-									disabled={isPending}
 									control={form.control}
 									name='creationDate'
 									render={({ field }) => (
@@ -244,7 +240,6 @@ export function ContractForm() {
 								/>
 
 								<FormField
-									disabled={isPending}
 									control={form.control}
 									name='expirationDate'
 									render={({ field }) => (
