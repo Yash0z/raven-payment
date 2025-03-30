@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { InferRequestType, InferResponseType } from "hono";
@@ -26,10 +26,9 @@ export const useContract = () => {
 		},
 
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["contracts"] });
+			queryClient.invalidateQueries({ queryKey: ["active-contracts"] });
 			toast("Contract Approval sent successfully", {
 				position: "top-right",
-            
 			});
 			router.push("/dashboard");
 		},
@@ -38,6 +37,20 @@ export const useContract = () => {
 				description: error,
 				position: "top-right",
 			});
+		},
+	});
+	return query;
+};
+
+export const getActiveContract = () => {
+	const query = useQuery({
+		queryKey: ["active-contracts"],
+		queryFn: async () => {
+			const res = await client.api.contract.active.$get();
+			if (!res.ok) {
+				throw new Error("server error");
+			}
+			return await res.json();
 		},
 	});
 	return query;

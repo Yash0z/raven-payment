@@ -5,13 +5,10 @@ import { contract, ContractSchema, user } from "../modules/models/schema";
 import { db } from "../modules/db/db";
 import { generateHEXID } from "../utils/generateHEXID";
 import { generateTimeline } from "../utils/generateTimeline";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
+//  create a new contract
 const contractRouter = new Hono<Context>()
-	// .get("/data", (c) => {
-	// 	return c.json({ message: c.get("user") });
-	// })
-
 	.post(
 		"/new",
 		zValidator(
@@ -77,6 +74,28 @@ const contractRouter = new Hono<Context>()
 			console.log(data);
 			return c.json(data);
 		}
-	);
+	)
+
+	// get active contracts
+	.get("/active", async (c) => {
+		const inUser = c.get("user");
+		// If user is undefined, log an error
+		if (!inUser) {
+			return c.json({ error: "Unauthorized" }, 401);
+		}
+
+		// Query to get active contracts where recipient email matches user's email
+		const [contracts] = await db
+			.select()
+			.from(contract)
+			.where(
+				and(
+					eq(contract.status, "active"),
+					eq(contract.recipientEmail, inUser.email)
+				)
+			);
+
+		return c.json({ contracts }, 200);
+	});
 
 export default contractRouter;
