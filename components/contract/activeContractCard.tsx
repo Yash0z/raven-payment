@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 // Sample data object that would be passed to the component
 interface CardData {
+	contractHexID: string;
 	contractName: string;
 	amount: string;
 	createdBy: string;
@@ -29,9 +30,13 @@ export default function ActiveContract({ data }: BankCardProps) {
 			onMouseLeave={() => setIsHovered(false)}
 		>
 			<CardContent>
-				<div className='flex justify-between items-start'>
-					<h2 className='font-cabinet-medium  tracking-wide'>
-						{data?.contractName}
+				<div className='flex  justify-between items-start'>
+					<h2 className='font-cabinet-medium flex gap-5 tracking-wide'>
+						<span> {data?.contractName}</span>
+
+						<span className='text-sm text-muted-foreground/80 bg-foreground/10 text-center p-1 px-5 rounded-md'>
+							{data?.contractHexID}
+						</span>
 					</h2>
 					<span className='text-right'>${data?.amount}</span>
 				</div>

@@ -5,7 +5,6 @@ import {
 	boolean,
 	numeric,
 	integer,
-	decimal,
 	jsonb,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
