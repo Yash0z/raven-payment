@@ -70,7 +70,7 @@ export const contract = pgTable("contract", {
 	expirationDate: timestamp("expiration_date").notNull(), // Expiration Date
 	agreement: text("agreement").notNull(), // Agreement Details
 	milestones: integer("milestones").notNull(), // Number of Milestones
-	timeline: jsonb("timeline").notNull(), // JSON string containing milestone dates & payments
+	timeline: jsonb("timeline").notNull(),
 	approvalStatus: text("approval_status", {
 		enum: ["pending", "rejected", "accepted"],
 	})

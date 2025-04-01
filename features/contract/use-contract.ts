@@ -12,8 +12,10 @@ type contractRequestType = InferRequestType<
 	typeof client.api.contract.new.$post
 >["json"];
 
+//create contract hook
 export const useContract = () => {
 	const queryClient = useQueryClient();
+	const router = useRouter();
 	const query = useMutation<contractResponseType, Error, contractRequestType>({
 		mutationKey: ["contracts"],
 		mutationFn: async (json) => {
@@ -26,6 +28,7 @@ export const useContract = () => {
 
 		onSuccess: async () => {
 			queryClient.invalidateQueries({ queryKey: ["activeContracts"] });
+			router.push("/dashboard");
 		},
 		onError: () => {
 			toast("Contract Approval failed", {
@@ -36,6 +39,7 @@ export const useContract = () => {
 	return query;
 };
 
+// get active contrats hook
 export const getActiveContract = () => {
 	const query = useQuery({
 		queryKey: ["activeContracts"],
@@ -52,6 +56,31 @@ export const getActiveContract = () => {
 		staleTime: 60000, // Consider data fresh for 10 seconds
 		refetchOnWindowFocus: false, // Don't refetch on window focus
 		retry: 1, // Only retry once if fails
+	});
+
+	return query;
+};
+
+// get contract data
+
+export const getContractDetails = (hexId: string) => {
+	const query = useQuery({
+		queryKey: ["contract-data", hexId],
+		queryFn: async () => {
+			const res = await client.api.contract[":hexId"].$get({
+				param: {
+					hexId: hexId,
+				},
+			});
+
+			if (!res.ok) {
+				throw new Error("Server error");
+			}
+
+			const data = await res.json();
+			return data;
+		},
+		enabled: !!hexId, //run only if you pass the hexid
 	});
 
 	return query;

@@ -1,18 +1,8 @@
 "use client";
-
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-
-// Sample data object that would be passed to the component
-interface CardData {
-	contractHexID: string;
-	contractName: string;
-	amount: string;
-	createdBy: string;
-	creation: string;
-	expiration: string;
-	nextDueDate: string;
-}
+import { redirect } from "next/navigation";
+import { CardData } from "@/types/types";
 
 interface BankCardProps {
 	data?: CardData;
@@ -23,6 +13,11 @@ export default function ActiveContract({ data }: BankCardProps) {
 
 	return (
 		<Card
+			onClick={() => {
+				if (data?.contractHexID) {
+					redirect(`/contract/${data.contractHexID}`);
+				}
+			}}
 			className={`w-full max-h-35 bg-card border border-secondary-foreground/60 rounded-lg transition-all duration-200 ${
 				isHovered ? "scale-[1.02] border-primary" : ""
 			}`}
