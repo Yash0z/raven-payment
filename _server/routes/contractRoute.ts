@@ -94,6 +94,24 @@ const contractRouter = new Hono<Context>()
 		});
 		if (!contracts) return c.json({ a: "b" }, 400);
 		return c.json({ contracts }, 200);
+	})
+
+	// get contract details using hexid
+	.get("/:hexId", async (c) => {
+		const { hexId } = c.req.param();
+		console.log(hexId);
+
+		// Query to get class members along with their usernames
+		const [data] = await db
+			.select()
+			.from(contract)
+			.where(eq(contract.hexId, hexId));
+
+		if (!data) {
+			return c.json({ message: "No Data found" }, 403);
+		}
+
+		return c.json({ data }, 200);
 	});
 
 export default contractRouter;
