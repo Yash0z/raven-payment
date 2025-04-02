@@ -2,6 +2,7 @@ type TimelineEvent = {
 	id?: string;
 	date: string;
 	status: string;
+	title: "";
 	payment?: {
 		amount?: number;
 		currency?: string;

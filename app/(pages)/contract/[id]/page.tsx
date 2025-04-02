@@ -65,7 +65,7 @@ const ContractDetails: React.FC = () => {
 					<ul className='space-y-2'>
 						{TimelineData?.map((contract: Timeline, index: number) => (
 							<li
-								key={contract.id || index}
+								key={index}
 								className='border-l-2 border-gray-300 pl-4 py-2'
 							>
 								<p>
@@ -73,6 +73,12 @@ const ContractDetails: React.FC = () => {
 								</p>
 								<p>
 									<strong>Status:</strong> {contract.status}
+								</p>
+								<p>
+									<strong>Status:</strong> {contract.id}
+								</p>
+								<p>
+									<strong>Status:</strong> {contract.title}
 								</p>
 								{contract.payment && (
 									<p>

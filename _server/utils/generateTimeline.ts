@@ -1,6 +1,5 @@
 import { format } from "date-fns";
-
-
+import { v4 as uuidv4 } from "uuid";
 export function generateTimeline(
 	creationDate: Date,
 	expirationDate: Date,
@@ -20,10 +19,11 @@ export function generateTimeline(
 			creationDate.getTime() + interval * (i + 1)
 		);
 		return {
-			id: i + 1,
+			id: uuidv4(),
 			payment: milestoneAmount.toFixed(2),
 			date: format(milestoneDate, "yy-MM-dd"),
 			status: "pending",
+			title: "",
 		};
 	});
 }

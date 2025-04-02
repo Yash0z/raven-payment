@@ -32,14 +32,13 @@ const contractRouter = new Hono<Context>()
 			console.log("User:", inUser);
 			const initialStatus = "active";
 			const initialApprovalStatus = "pending";
+
 			const timeline = generateTimeline(
 				values.creationDate,
 				values.expirationDate,
 				values.milestones,
 				parseFloat(values.amount)
 			);
-
-			console.log("Timeline:", timeline);
 
 			const recipient = await db.query.user.findFirst({
 				where: eq(user.email, values.recipientEmail),
@@ -89,6 +88,26 @@ const contractRouter = new Hono<Context>()
 		const contracts = await db.query.contract.findMany({
 			where: and(
 				eq(contract.status, "active"),
+				eq(contract.approvalStatus, "accepted"),
+				eq(contract.recipientEmail, inUser.email)
+			),
+		});
+		if (!contracts) return c.json({ a: "b" }, 400);
+		return c.json({ contracts }, 200);
+	})
+   .get("/approval", async (c) => {
+		const inUser = c.get("user");
+		// If user is undefined, log an error
+		if (!inUser) {
+			return c.json({ error: "Unauthorized" }, 401);
+		}
+
+		// Query to get active contracts where recipient email matches user's email
+
+		const contracts = await db.query.contract.findMany({
+			where: and(
+				eq(contract.status, "active"),
+				eq(contract.approvalStatus, "pending"),
 				eq(contract.recipientEmail, inUser.email)
 			),
 		});

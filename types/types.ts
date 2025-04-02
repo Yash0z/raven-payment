@@ -26,10 +26,12 @@ export type Timeline = {
 	id?: string;
 	date: string;
 	status: string;
+	title: string;
 	payment?: {
 		amount?: number;
 		currency?: string;
 		[key: string]: any;
 	};
-	[key: string]: any; // Allow for other properties
+	[key: string]: any;
+	// Allow for other properties
 };
