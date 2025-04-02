@@ -52,8 +52,6 @@ export const getActiveContract = () => {
 			}
 			return await res.json();
 		},
-		// Add specific settings to control refetching behavior
-		staleTime: 60000, // Consider data fresh for 10 seconds
 		refetchOnWindowFocus: false, // Don't refetch on window focus
 		retry: 1, // Only retry once if fails
 	});

@@ -35,8 +35,10 @@ app.on(["POST", "GET"], "/auth/*", (c) => {
 //routes
 import userRouter from "./routes/userRoute";
 import contractRouter from "./routes/contractRoute";
+import ApprovalRouter from "./routes/approvalRoute";
 const routes = app
 	.route("/user", userRouter)
-	.route("/contract", contractRouter);
+	.route("/contract", contractRouter)
+	.route("/approvals", ApprovalRouter);
 export type AppType = typeof routes;
 export default app;

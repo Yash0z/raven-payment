@@ -51,7 +51,7 @@ const data = {
 		},
 		{
 			title: "Approvals",
-			url: "/apporvals",
+			url: "/approvals",
 			icon: IconSignature,
 		},
 		{

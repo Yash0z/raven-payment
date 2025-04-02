@@ -7,8 +7,8 @@ import { generateHEXID } from "../utils/generateHEXID";
 import { generateTimeline } from "../utils/generateTimeline";
 import { eq, and } from "drizzle-orm";
 
-//  create a new contract
 const contractRouter = new Hono<Context>()
+	//  create a new contract
 	.post(
 		"/new",
 		zValidator(
@@ -89,25 +89,6 @@ const contractRouter = new Hono<Context>()
 			where: and(
 				eq(contract.status, "active"),
 				eq(contract.approvalStatus, "accepted"),
-				eq(contract.recipientEmail, inUser.email)
-			),
-		});
-		if (!contracts) return c.json({ a: "b" }, 400);
-		return c.json({ contracts }, 200);
-	})
-   .get("/approval", async (c) => {
-		const inUser = c.get("user");
-		// If user is undefined, log an error
-		if (!inUser) {
-			return c.json({ error: "Unauthorized" }, 401);
-		}
-
-		// Query to get active contracts where recipient email matches user's email
-
-		const contracts = await db.query.contract.findMany({
-			where: and(
-				eq(contract.status, "active"),
-				eq(contract.approvalStatus, "pending"),
 				eq(contract.recipientEmail, inUser.email)
 			),
 		});

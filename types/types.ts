@@ -22,6 +22,12 @@ export interface CardData {
 	expiration: string;
 	nextDueDate: string;
 }
+export interface ApprovalCardData {
+	contractName: string;
+	sendersEmail: string;
+	start: string;
+	end: string;
+}
 export type Timeline = {
 	id?: string;
 	date: string;
