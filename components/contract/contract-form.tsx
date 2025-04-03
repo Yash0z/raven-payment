@@ -52,24 +52,22 @@ export function ContractForm() {
 	}
 
 	return (
-		<div className='relative mt-10 w-full max-w-3xl p-2.5 py-5 '>
+		<div className='relative mt-10 w-full max-w-3xl p-2.5 py-5 bg-background'>
 			<div className='text-left mb-6 space-y-2'>
-				<h1 className='text-3xl ml-6 font-haskoy-bold'>
-					Create a Contract
-				</h1>
-				<p className='text-md ml-6 text-secondary-foreground/50'>
+				<h1 className='text-3xl  font-haskoy-bold'>Create a Contract</h1>
+				<p className='text-md  text-secondary-foreground/50'>
 					Fill the details that are to be send to recipient
 				</p>
 			</div>
 
-			<Card>
+			<Card className='border-0 bg-background'>
 				<CardContent>
 					<Form {...form}>
 						<form
 							onSubmit={form.handleSubmit(onSubmit)}
 							className='space-y-8 md:space-y-10   font-satoshi-regular font-bold '
 						>
-							<div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
+							<div className='grid grid-cols-1  md:grid-cols-2 gap-10'>
 								<FormField
 									control={form.control}
 									name='contractName'

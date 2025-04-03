@@ -137,16 +137,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	const [user] = useAtom(userAtom);
 	return (
 		<Sidebar collapsible='offcanvas' {...props}>
-			<SidebarHeader className='pt-7.5 '>
+			<SidebarHeader className='pt-6.5 '>
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton
 							asChild
-							className='data-[slot=sidebar-menu-button]:!p-2 flex justify-center'
+							className='data-[slot=sidebar-menu-button]:!py-5 flex justify-center hover:bg-sidebar '
 						>
 							<a href='#'>
-								<span className='text-3xl md:text-4xl font-haskoy-extrabold text-accent'>
-									Raven Inc.
+								<span className='text-3xl md:text-4xl p-5 font-haskoy-extrabold text-sidebar-primary'>
+									Escrowly
 								</span>
 							</a>
 						</SidebarMenuButton>
