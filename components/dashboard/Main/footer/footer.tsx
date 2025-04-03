@@ -30,7 +30,7 @@ export const Footer: React.FC = () => {
 				</Button>
 			</div>
 
-			<main className='overflow-y-auto min-h-[380px] py-5 flex  flex-col  gap-2 px-5 w-full'>
+			<main className='overflow-y-auto max-h-[380px] py-5 flex  flex-col  gap-2 px-5 w-full'>
 				{isPending ? (
 					<Skeleton />
 				) : (

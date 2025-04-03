@@ -88,7 +88,7 @@ const contractRouter = new Hono<Context>()
 		const contracts = await db.query.contract.findMany({
 			where: and(
 				eq(contract.status, "active"),
-				eq(contract.approvalStatus, "accepted"),
+				// eq(contract.approvalStatus, "accepted"),
 				eq(contract.recipientEmail, inUser.email)
 			),
 		});

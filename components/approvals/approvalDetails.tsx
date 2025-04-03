@@ -12,6 +12,7 @@ import {
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
+import ContractTimeline from "../contract/contract-timeline";
 
 interface ApprovalDataProps {
 	data: {
@@ -42,8 +43,8 @@ const ApprovalData: React.FC<ApprovalDataProps> = ({ data }) => {
 
 	return (
 		<div className='w-full h-full  font-cabinet-medium'>
-			<main className=' p-10  flex flex-col justify-between h-full'>
-				<div className='mb-8 flex items-start justify-between'>
+			<main className=' p-10 flex flex-col gap-10 h-full '>
+				<div className=' flex items-start justify-between '>
 					<div>
 						<h1 className='mb-5 font-haskoy-bold text-3xl'>
 							{" "}
@@ -61,29 +62,35 @@ const ApprovalData: React.FC<ApprovalDataProps> = ({ data }) => {
 					</div>
 				</div>
 
-				{/* Timeline */}
-				<div className=''></div>
-
-				{/* Footer */}
-				<div className='flex items-center justify-between'>
-					<div className='rounded-full  text-muted-foreground border  px-3 py-2 text-sm'>
-						Status: {data?.contractStatus}
+				<div className='flex justify-between gap-3 h-full'>
+					{/* Timeline */}
+					<div className='p-3'>
+						<ContractTimeline />
 					</div>
-					<div className='flex gap-4'>
-						<Button
-							variant='ghost'
-							onClick={() => setShowRejectDialog(true)}
-							className='text-muted-foreground p-4'
-						>
-							Reject
-						</Button>
-						<Button
-							variant='outline'
-							onClick={() => setShowApproveDialog(true)}
-							className='p-4'
-						>
-							Approve
-						</Button>
+					{/* Footer */}
+
+					<div className='flex items-end py-5 justify-between '>
+						<div className='rounded-full  text-muted-foreground border  px-3 py-2 text-sm'>
+							Status: {data?.contractStatus}
+						</div>
+						<div className='flex gap-4'>
+							<Button
+								size='lg'
+								variant='ghost'
+								onClick={() => setShowRejectDialog(true)}
+								className='text-muted-foreground p-4'
+							>
+								Reject
+							</Button>
+							<Button
+								size='lg'
+								variant='outline'
+								onClick={() => setShowApproveDialog(true)}
+								className='p-4'
+							>
+								Approve
+							</Button>
+						</div>
 					</div>
 				</div>
 			</main>
@@ -112,7 +119,6 @@ const ApprovalData: React.FC<ApprovalDataProps> = ({ data }) => {
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialog>
-
 			{/* Reject Dialog */}
 			<AlertDialog
 				open={showRejectDialog}

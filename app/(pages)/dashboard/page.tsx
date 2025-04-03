@@ -3,7 +3,7 @@ import { Box } from "@/components/dashboard/Main/header/box";
 
 export default function Page() {
 	return (
-		<main className='h-full bg-background grid grid-rows-[3fr_1fr_5fr] rows-[header_main_footer] '>
+		<main className='h-full bg-background grid grid-rows-[2fr_1.5fr_4fr] rows-[header_main_footer] '>
 			<div className='row-in-header grid grid-cols-[2fr_4fr] cols-[left_right]'>
 				<div className='cols-in-left p-4'>
 					<Box />

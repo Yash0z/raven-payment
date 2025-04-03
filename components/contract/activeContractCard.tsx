@@ -18,7 +18,7 @@ export default function ActiveContract({ data }: BankCardProps) {
 					redirect(`/contract/${data.contractHexID}`);
 				}
 			}}
-			className={`w-full max-h-35 bg-card border border-secondary-foreground/60 rounded-lg transition-all duration-200 ${
+			className={`w-full max-h-35 bg-background border border-secondary-foreground/60 rounded-lg transition-all duration-200 ${
 				isHovered ? "scale-[1.02] border-primary" : ""
 			}`}
 			onMouseEnter={() => setIsHovered(true)}
