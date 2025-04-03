@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
 import ContractTimeline from "../contract/contract-timeline";
+import { Timeline } from "@/types/types";
 
 interface ApprovalDataProps {
 	data: {
@@ -23,6 +24,7 @@ interface ApprovalDataProps {
 		createdBy: string;
 		creationDate: string;
 		expirationDate: string;
+		timeline: Timeline[];
 	};
 }
 const ApprovalData: React.FC<ApprovalDataProps> = ({ data }) => {

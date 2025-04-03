@@ -2,7 +2,6 @@
 
 import ApprovalData from "@/components/approvals/approvalDetails";
 import { getApprovalDetails } from "@/features/approvals/use-approval";
-import { getContractDetails } from "@/features/contract/use-contract";
 import { Timeline } from "@/types/types";
 import { formatDate } from "@/utils/dataFormatter";
 import { useParams } from "next/navigation";
@@ -24,7 +23,7 @@ const ApprovalDetails: React.FC = () => {
 			</div>
 		);
 	}
-
+	const TimelineData: Array<Timeline> = data.data.timeline;
 	const contractdata = {
 		hexID: hexId,
 		contractName: data.data.contractName,
@@ -33,7 +32,7 @@ const ApprovalDetails: React.FC = () => {
 		createdBy: data.data.createdBy,
 		creationDate: formatDate(data.data.creationDate),
 		expirationDate: formatDate(data.data.expirationDate),
-		// timeline: data.data.timeline,
+		timeline: TimelineData,
 	};
 
 	return (
