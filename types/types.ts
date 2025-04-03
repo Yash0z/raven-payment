@@ -23,6 +23,7 @@ export interface CardData {
 	nextDueDate: string;
 }
 export interface ApprovalCardData {
+	id: string;
 	contractName: string;
 	sendersEmail: string;
 	start: string;

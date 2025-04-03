@@ -21,6 +21,7 @@ const Approvae: React.FC = () => {
 				) : (
 					data?.contracts.map((contract, index) => {
 						const contractData = {
+							id: contract.hexId,
 							contractName: contract.contractName,
 							sendersEmail: contract.createdBy,
 							start: formatDate(contract.creationDate),

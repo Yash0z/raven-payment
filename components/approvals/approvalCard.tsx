@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { ApprovalCardData } from "@/types/types";
+import { redirect } from "next/navigation";
 
 interface ApprovalCardProps {
 	data?: ApprovalCardData;
@@ -11,7 +12,14 @@ interface ApprovalCardProps {
 
 export default function ApprovalCard({ data }: ApprovalCardProps) {
 	return (
-		<Card className='flex flex-row justify-between w-full border border-foreground/10 rounded-md p-7'>
+		<Card
+			onClick={() => {
+				if (data?.id) {
+					redirect(`/approvals/${data.id}`);
+				}
+			}}
+			className='flex flex-row justify-between w-full border border-foreground/10 rounded-md p-7'
+		>
 			<div className='flex flex-col'>
 				<span className='text-xl font-cabinet-medium text-foreground'>
 					{data?.contractName}
@@ -24,7 +32,7 @@ export default function ApprovalCard({ data }: ApprovalCardProps) {
 				{data?.start} to {data?.end}
 			</div>
 			<div className='flex items-center gap-4 '>
-				<Button className='border bg-background border-primary/20 hover:bg-accent'>
+				<Button className='text-primary-foreground'>
 					<Trash />
 				</Button>
 
@@ -35,9 +43,9 @@ export default function ApprovalCard({ data }: ApprovalCardProps) {
 					// 	}
 					// }}
 					variant='outline'
-					className='border-foreground/40 hover:bg-accent hover:border-primary'
+					className='p-5 bg-card'
 				>
-					open
+					<span>open</span>
 				</Button>
 			</div>
 		</Card>
