@@ -3,9 +3,37 @@ import { Context } from "../utils/Authcontext";
 import { contract } from "../modules/models/schema";
 import { db } from "../modules/db/db";
 import { eq, and } from "drizzle-orm";
+import { z } from "zod";
+import { zValidator } from "@hono/zod-validator";
 
-//  create a new contract
 const ApprovalRouter = new Hono<Context>()
+	//update contract status
+	.patch(
+		"/update",
+		zValidator(
+			"json",
+			z.object({
+				contractId: z.string(),
+				status: z.string(),
+				approvedBy: z.string(),
+			})
+		),
+		async (c) => {
+			const values = c.req.valid("json");
+			const [updatedStatus] = await db
+				.update(contract)
+				.set({
+					approvalStatus:
+						values.status === "approved" ? "accepted" : "rejected",
+					approvedBy: values.approvedBy,
+					updatedAt: new Date(),
+				})
+				.where(eq(contract.hexId, values.contractId))
+				.returning();
+
+			return c.json(updatedStatus, 200);
+		}
+	)
 
 	.get("/", async (c) => {
 		const inUser = c.get("user");

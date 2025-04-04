@@ -75,8 +75,8 @@ const contractRouter = new Hono<Context>()
 		}
 	)
 
-	// get active contracts
-	.get("/active", async (c) => {
+	// get approved contracts
+	.get("/approved", async (c) => {
 		const inUser = c.get("user");
 		// If user is undefined, log an error
 		if (!inUser) {
@@ -88,7 +88,7 @@ const contractRouter = new Hono<Context>()
 		const contracts = await db.query.contract.findMany({
 			where: and(
 				eq(contract.status, "active"),
-				// eq(contract.approvalStatus, "accepted"),
+				eq(contract.approvalStatus, "accepted"),
 				eq(contract.recipientEmail, inUser.email)
 			),
 		});

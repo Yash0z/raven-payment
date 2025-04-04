@@ -15,6 +15,7 @@ export default function Page() {
 				<div className='md:cols-in-left w-full'>
 					<Footer />
 				</div>
+            
 			</div>
 		</main>
 	);

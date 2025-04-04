@@ -42,11 +42,9 @@ export const useContract = () => {
 // get active contrats hook
 export const getActiveContract = () => {
 	const query = useQuery({
-		queryKey: ["activeContracts"],
+		queryKey: ["approved-contracts"],
 		queryFn: async () => {
-			console.time("api-fetch");
-			const res = await client.api.contract.active.$get();
-			console.timeEnd("api-fetch");
+			const res = await client.api.contract.approved.$get();
 			if (!res.ok) {
 				throw new Error("server error");
 			}

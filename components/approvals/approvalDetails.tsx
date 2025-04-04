@@ -14,6 +14,10 @@ import {
 import { Button } from "../ui/button";
 import ContractTimeline from "../contract/contract-timeline";
 import { Timeline } from "@/types/types";
+import { useUpdateApproval } from "@/features/approvals/use-approval";
+import { useAtom } from "jotai";
+import { userAtom } from "@/atoms/userAtom";
+import { Loader, Loader2 } from "lucide-react";
 
 interface ApprovalDataProps {
 	data: {
@@ -28,19 +32,34 @@ interface ApprovalDataProps {
 	};
 }
 const ApprovalData: React.FC<ApprovalDataProps> = ({ data }) => {
+	const [user] = useAtom(userAtom);
 	const [showApproveDialog, setShowApproveDialog] = useState(false);
 	const [showRejectDialog, setShowRejectDialog] = useState(false);
+	const { mutate, isPending } = useUpdateApproval();
 
 	const handleApprove = () => {
 		// Handle approve logic here
-		console.log("Contract approved");
-		setShowApproveDialog(false);
+		mutate({
+			contractId: data.hexID,
+			status: "approved",
+			approvedBy: user.id,
+		});
+      
+		if (!isPending) {
+			setShowApproveDialog(false);
+		}
 	};
 
 	const handleReject = () => {
 		// Handle reject logic here
-		console.log("Contract rejected");
-		setShowRejectDialog(false);
+		mutate({
+			contractId: data.hexID,
+			status: "rejected",
+			approvedBy: user.id,
+		});
+		if (!isPending) {
+			setShowRejectDialog(false);
+		}
 	};
 
 	return (
@@ -116,7 +135,11 @@ const ApprovalData: React.FC<ApprovalDataProps> = ({ data }) => {
 							onClick={handleApprove}
 							className='bg-constructive hover:bg-constructive/80 text-background'
 						>
-							Approve
+							{isPending ? (
+								<Loader2 className='animate-spin h-4 w-4' />
+							) : (
+								"Approve"
+							)}
 						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>
@@ -140,7 +163,11 @@ const ApprovalData: React.FC<ApprovalDataProps> = ({ data }) => {
 							onClick={handleReject}
 							className='bg-destructive hover:bg-constructive/80 text-background'
 						>
-							Reject
+							{isPending ? (
+								<Loader2 className='animate-spin h-4 w-4' />
+							) : (
+								"Reject"
+							)}
 						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>
