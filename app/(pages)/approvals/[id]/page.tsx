@@ -2,7 +2,7 @@
 
 import ApprovalData from "@/components/approvals/approvalDetails";
 import { getApprovalDetails } from "@/features/approvals/use-approval";
-import { Timeline } from "@/types/types";
+import { TimelineType } from "@/types/types";
 import { formatDate } from "@/utils/dataFormatter";
 import { useParams } from "next/navigation";
 
@@ -23,7 +23,7 @@ const ApprovalDetails: React.FC = () => {
 			</div>
 		);
 	}
-	const TimelineData: Array<Timeline> = data.data.timeline;
+	const TimelineData: Array<TimelineType> = data.data.timeline;
 	const contractdata = {
 		hexID: hexId,
 		contractName: data.data.contractName,

@@ -13,7 +13,7 @@ export function generateTimeline(
 	const timeDiff = expirationDate.getTime() - creationDate.getTime();
 	const interval = timeDiff / milestones;
 	const milestoneAmount = amount / milestones;
-
+	const initialStatus = "done";
 	return Array.from({ length: milestones }, (_, i) => {
 		const milestoneDate = new Date(
 			creationDate.getTime() + interval * (i + 1)
@@ -22,7 +22,7 @@ export function generateTimeline(
 			id: uuidv4(),
 			payment: milestoneAmount.toFixed(2),
 			date: format(milestoneDate, "yy-MM-dd"),
-			status: "pending",
+			status: initialStatus,
 			title: "",
 		};
 	});

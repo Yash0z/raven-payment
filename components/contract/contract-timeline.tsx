@@ -6,51 +6,35 @@ import {
 	TimelineItem,
 	TimelineLine,
 } from "@/components/ui/timeline";
+import { TimelineType } from "@/types/types";
 
-const ContractTimeline: React.FC = () => {
+interface TimelineProps {
+	data: TimelineType[];
+}
+const ContractTimeline: React.FC<TimelineProps> = ({ data }) => {
 	return (
 		<>
 			<Timeline>
-				<TimelineItem>
-					<TimelineHeading status='done' className='text-xl '>
-						25-04-08
-					</TimelineHeading>
-					<TimelineDot status='done' />
-					<TimelineLine done />
-					<TimelineContent status="done" className='text-[0.8em]'>
-						UI/Ux design
-					</TimelineContent>
-				</TimelineItem>
-				<TimelineItem>
-					<TimelineHeading status='done' className='text-xl '>
-						25-04-15
-					</TimelineHeading>
-					<TimelineDot status='done' />
-					<TimelineLine done />
-					<TimelineContent status="done" className='text-[0.8em]'>
-						Database design & Api routing
-					</TimelineContent>
-				</TimelineItem>
-				<TimelineItem>
-					<TimelineHeading className='text-xl text-primary'>
-						25-04-22
-					</TimelineHeading>
-					<TimelineDot status='current' />
-					<TimelineLine />
-					<TimelineContent className='text-[0.8em]'>
-						Frontend Integration
-					</TimelineContent>
-				</TimelineItem>
-				<TimelineItem status='done'>
-					<TimelineHeading className='text-xl text-primary'>
-						25-04-29
-					</TimelineHeading>
-					<TimelineDot status='default' />
-					{/* <TimelineLine /> */}
-					<TimelineContent className='text-[0.8em]'>
-						Done !
-					</TimelineContent>
-				</TimelineItem>
+				{data.map((item, index) => (
+					<TimelineItem key={item.id}>
+						<TimelineHeading
+							status={item.status === "done" ? "done" : "default"}
+							className='text-xl'
+						>
+							{item.date} - {item.status}
+						</TimelineHeading>
+						<TimelineDot
+							status={item.status === "done" ? "done" : "default"}
+						/>
+						{index !== data.length - 1 && <TimelineLine done />}
+						<TimelineContent
+							status={item.status === "done" ? "done" : "default"}
+							className='text-[0.8em]'
+						>
+							{item.title || `Payment: $${item.payment}`}
+						</TimelineContent>
+					</TimelineItem>
+				))}
 			</Timeline>
 		</>
 	);

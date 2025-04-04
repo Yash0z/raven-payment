@@ -1,6 +1,6 @@
 "use client";
 import { getContractDetails } from "@/features/contract/use-contract";
-import { Timeline } from "@/types/types";
+import { TimelineType } from "@/types/types";
 import { formatDate } from "@/utils/dataFormatter";
 import { useParams } from "next/navigation";
 
@@ -19,7 +19,7 @@ const ContractDetails: React.FC = () => {
 			</div>
 		);
 	}
-	const TimelineData: Array<Timeline> = data.data.timeline;
+	const TimelineData: Array<TimelineType> = data.data.timeline;
 
 	return (
 		<main key={hexId} className='flex flex-col gap-4 p-6'>
@@ -63,7 +63,7 @@ const ContractDetails: React.FC = () => {
 				<div className='mt-6'>
 					<h2 className='text-xl font-semibold mb-3'>Timeline</h2>
 					<ul className='space-y-2'>
-						{TimelineData?.map((contract: Timeline, index: number) => (
+						{TimelineData?.map((contract: TimelineType, index: number) => (
 							<li
 								key={index}
 								className='border-l-2 border-gray-300 pl-4 py-2'

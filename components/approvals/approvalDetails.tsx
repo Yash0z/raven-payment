@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
 import ContractTimeline from "../contract/contract-timeline";
-import { Timeline } from "@/types/types";
+import { TimelineType } from "@/types/types";
 import { useUpdateApproval } from "@/features/approvals/use-approval";
 import { useAtom } from "jotai";
 import { userAtom } from "@/atoms/userAtom";
@@ -28,7 +28,7 @@ interface ApprovalDataProps {
 		createdBy: string;
 		creationDate: string;
 		expirationDate: string;
-		timeline: Timeline[];
+		timeline: TimelineType[];
 	};
 }
 const ApprovalData: React.FC<ApprovalDataProps> = ({ data }) => {
@@ -44,7 +44,7 @@ const ApprovalData: React.FC<ApprovalDataProps> = ({ data }) => {
 			status: "approved",
 			approvedBy: user.id,
 		});
-      
+
 		if (!isPending) {
 			setShowApproveDialog(false);
 		}
@@ -86,7 +86,7 @@ const ApprovalData: React.FC<ApprovalDataProps> = ({ data }) => {
 				<div className='flex justify-between gap-3 h-full'>
 					{/* Timeline */}
 					<div className='p-3'>
-						<ContractTimeline />
+						<ContractTimeline data={data?.timeline} />
 					</div>
 					{/* Footer */}
 

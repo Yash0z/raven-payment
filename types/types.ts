@@ -29,7 +29,7 @@ export interface ApprovalCardData {
 	start: string;
 	end: string;
 }
-export type Timeline = {
+export type TimelineType = {
 	id?: string;
 	date: string;
 	status: string;
