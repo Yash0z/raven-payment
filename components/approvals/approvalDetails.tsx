@@ -17,7 +17,7 @@ import { TimelineType } from "@/types/types";
 import { useUpdateApproval } from "@/features/approvals/use-approval";
 import { useAtom } from "jotai";
 import { userAtom } from "@/atoms/userAtom";
-import { Loader, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 interface ApprovalDataProps {
 	data: {
