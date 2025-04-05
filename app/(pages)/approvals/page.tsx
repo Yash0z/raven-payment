@@ -1,10 +1,13 @@
 "use client";
+
 import ApprovalCard from "@/components/approvals/approvalCard";
-import { Skeleton } from "@/components/ui/skeleton";
+import _Loader from "@/components/misc/pageLoader";
 import { getApprovals } from "@/features/approvals/use-approval";
 import { formatDate } from "@/utils/dataFormatter";
+
 const Approvae: React.FC = () => {
 	const { data, isPending } = getApprovals();
+
 	return (
 		<>
 			<div className='p-8'>
@@ -12,12 +15,16 @@ const Approvae: React.FC = () => {
 					Approvals
 				</h1>
 			</div>
-			<main className='overflow-y-auto h-full py-5 flex  flex-col  gap-5 px-3 w-full'>
+
+			<main className='overflow-y-auto h-full py-5 flex flex-col gap-5 px-6 w-full'>
 				{isPending ? (
-					<>
-						loading...
-						<Skeleton className='bg-foreground' />
-					</>
+					<_Loader />
+				) : data?.contracts.length === 0 ? (
+					<div className='flex justify-center items-center h-full'>
+						<p className='text-muted-foreground'>
+							No approvals available
+						</p>
+					</div>
 				) : (
 					data?.contracts.map((contract, index) => {
 						const contractData = {
@@ -40,4 +47,5 @@ const Approvae: React.FC = () => {
 		</>
 	);
 };
+
 export default Approvae;

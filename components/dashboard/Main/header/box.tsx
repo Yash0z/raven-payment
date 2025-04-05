@@ -32,7 +32,7 @@ export const Box: React.FC = () => {
 						Hello,
 					</h1>
 					<h1 className='text-2xl md:text-3xl text-muted-foreground font-zodiak-regular '>
-						{username}
+						{/* {username} */}
 					</h1>
 				</div>
 				<div className=''>

@@ -32,7 +32,10 @@ export const Footer: React.FC = () => {
 
 			<main className='overflow-y-auto max-h-[380px] py-5 flex  flex-col  gap-2 px-5 w-full'>
 				{isPending ? (
-					<Skeleton />
+					<div className='space-y-2'>
+						<Skeleton className='h-7 w-[450px]' />
+						<Skeleton className='h-7 w-[400px]' />
+					</div>
 				) : (
 					data?.contracts.map((contract, index) => {
 						const contractData = {

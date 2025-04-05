@@ -76,7 +76,8 @@ export const getContractDetails = (hexId: string) => {
 			const data = await res.json();
 			return data;
 		},
-		enabled: !!hexId, //run only if you pass the hexid
+		enabled: !!hexId,
+		refetchOnWindowFocus: false, //run only if you pass the hexid
 	});
 
 	return query;

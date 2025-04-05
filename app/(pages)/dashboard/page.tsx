@@ -1,3 +1,4 @@
+
 import { Footer } from "@/components/dashboard/Main/footer/footer";
 import { Box } from "@/components/dashboard/Main/header/box";
 
@@ -15,7 +16,6 @@ export default function Page() {
 				<div className='md:cols-in-left w-full'>
 					<Footer />
 				</div>
-            
 			</div>
 		</main>
 	);
