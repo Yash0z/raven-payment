@@ -2,7 +2,7 @@
 import _Loader from "@/components/misc/pageLoader";
 import { getContractDetails } from "@/features/contract/use-contract";
 import { TimelineType } from "@/types/types";
-import { formatDate } from "@/utils/dataFormatter";
+// import { formatDate } from "@/utils/dataFormatter";
 import { useParams } from "next/navigation";
 
 const ContractDetails: React.FC = () => {
