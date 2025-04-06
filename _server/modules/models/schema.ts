@@ -75,7 +75,10 @@ export const contract = pgTable("contract", {
 		enum: ["pending", "rejected", "accepted"],
 	})
 		.notNull()
-		.default("pending"), // Approval Status
+		.default("pending"),
+	paymentStatus: text("payment_status", {
+		enum: ["pending", "completed", "failed"],
+	}).default("pending"),
 	approvedBy: text("approved_by").references(() => user.id), // ID of the approving party
 	updatedAt: timestamp("updated_at").notNull().defaultNow(), // Last update timestamp
 });

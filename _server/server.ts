@@ -25,7 +25,12 @@ app.use(
 );
 
 //better-auth middleware
-app.use("*", SessionMiddleware);
+app.use("*", (c, next) => {
+   if (!c.req.path.includes("/webhook/")) {
+     return SessionMiddleware(c, next);
+   }
+   return next();
+ });
 
 //better-auth handlers
 app.on(["POST", "GET"], "/auth/*", (c) => {
@@ -36,9 +41,13 @@ app.on(["POST", "GET"], "/auth/*", (c) => {
 import userRouter from "./routes/userRoute";
 import contractRouter from "./routes/contractRoute";
 import ApprovalRouter from "./routes/approvalRoute";
+import PaymentRouter from "./routes/paymentRoute";
+import WebhookRouter from "./webhooks/razorpay";
 const routes = app
 	.route("/user", userRouter)
 	.route("/contract", contractRouter)
-	.route("/approvals", ApprovalRouter);
+	.route("/approvals", ApprovalRouter)
+	.route("/payment", PaymentRouter)
+	.route("/webhook/razorpay", WebhookRouter);
 export type AppType = typeof routes;
 export default app;

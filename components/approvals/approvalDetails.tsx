@@ -35,7 +35,7 @@ const ApprovalData: React.FC<ApprovalDataProps> = ({ data }) => {
 	const [user] = useAtom(userAtom);
 	const [showApproveDialog, setShowApproveDialog] = useState(false);
 	const [showRejectDialog, setShowRejectDialog] = useState(false);
-	const { mutate, isPending } = useUpdateApproval();
+	const { mutate, isPending } = useUpdateApproval(data.hexID);
 
 	const handleApprove = () => {
 		// Handle approve logic here

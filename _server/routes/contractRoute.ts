@@ -89,6 +89,7 @@ const contractRouter = new Hono<Context>()
 			where: and(
 				eq(contract.status, "active"),
 				eq(contract.approvalStatus, "accepted"),
+				eq(contract.paymentStatus, "completed"),
 				eq(contract.recipientEmail, inUser.email)
 			),
 		});

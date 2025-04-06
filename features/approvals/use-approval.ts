@@ -51,7 +51,7 @@ export const getApprovalDetails = (hexId: string) => {
 };
 
 //update approval
-export const useUpdateApproval = () => {
+export const useUpdateApproval = (contractId: string) => {
 	const queryClient = useQueryClient();
 	const router = useRouter();
 	const query = useMutation<ApprovalResponseType, Error, ApprovalRequestType>({
@@ -65,9 +65,6 @@ export const useUpdateApproval = () => {
 		},
 
 		onSuccess: async () => {
-			toast("Contract Approved", {
-				position: "top-right",
-			});
 			queryClient.invalidateQueries({
 				queryKey: ["approval-data"], // Match the key used in getApprovals
 			});
@@ -75,7 +72,7 @@ export const useUpdateApproval = () => {
 				queryKey: ["approved-contracts"], // Match the key used in getApprovals
 			});
 
-			router.push("/approvals");
+			router.push(`/checkout/${contractId}`);
 		},
 		onError: () => {
 			toast("Contract Approval failed", {
