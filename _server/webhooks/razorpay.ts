@@ -1,7 +1,8 @@
 import { Hono } from "hono";
-import { Context } from "../utils/Authcontext";
 import crypto from "crypto";
-import { ContractSchema } from "../modules/models/schema";
+import { contract } from "../modules/models/schema";
+import { db } from "../modules/db/db";
+import { eq } from "drizzle-orm";
 
 // Define types for Razorpay webhook payloads
 interface RazorpayWebhookBody {
@@ -32,7 +33,7 @@ interface RazorpayPaymentEntity {
 	created_at: number;
 }
 
-const WebhookRouter = new Hono<Context>();
+const WebhookRouter = new Hono();
 
 // Razorpay webhook handler
 WebhookRouter.post("/", async (c) => {
@@ -138,13 +139,17 @@ async function handlePaymentCaptured(
 	// Payment is successfully captured
 	console.log("Payment captured:", payment.id);
 
-	// Example: Update contract status in database
-	// if (payment.notes.contractId) {
-	//   await ContractSchema.updateOne(
-	//     { _id: payment.notes.contractId },
-	//     { $set: { paymentStatus: "paid", paymentId: payment.id } }
-	//   );
-	// }
+	if (payment.notes.contractId) {
+		await db
+			.update(contract)
+			.set({
+				paymentStatus: "completed",
+				approvalStatus: "accepted",
+				updatedAt: new Date(),
+			})
+			.where(eq(contract.hexId, payment.notes.contractId))
+			.returning();
+	}
 }
 
 async function handlePaymentFailed(
@@ -153,13 +158,17 @@ async function handlePaymentFailed(
 	// Payment has failed
 	console.log("Payment failed:", payment.id);
 
-	// Example: Update contract status in database
-	// if (payment.notes.contractId) {
-	//   await ContractSchema.updateOne(
-	//     { _id: payment.notes.contractId },
-	//     { $set: { paymentStatus: "failed" } }
-	//   );
-	// }
+	if (payment.notes.contractId) {
+		await db
+			.update(contract)
+			.set({
+            paymentStatus: "failed",
+				approvalStatus: "pending",
+				updatedAt: new Date(),
+			})
+			.where(eq(contract.hexId, payment.notes.contractId))
+			.returning();
+	}
 }
 
 export default WebhookRouter;

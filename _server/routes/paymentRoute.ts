@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { Context } from "../utils/Authcontext";
 import Razorpay from "razorpay";
-import { contract, ContractSchema } from "../modules/models/schema";
+import { contract } from "../modules/models/schema";
 import { db } from "../modules/db/db";
 import { eq } from "drizzle-orm";
 
@@ -33,6 +33,7 @@ const PaymentRouter = new Hono<Context>()
 				currency: "INR", // Change as needed
 				receipt: `contract_${contractId}`,
 				notes: {
+               paymentStatus: "pending",
 					contractId: contractId,
 					userId: inUser.id,
 				},

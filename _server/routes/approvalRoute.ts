@@ -24,7 +24,7 @@ const ApprovalRouter = new Hono<Context>()
 				.update(contract)
 				.set({
 					approvalStatus:
-						values.status === "approved" ? "accepted" : "rejected",
+					values.status === "rejected" ? "rejected" : "accepted",
 					approvedBy: values.approvedBy,
 					updatedAt: new Date(),
 				})
@@ -34,7 +34,6 @@ const ApprovalRouter = new Hono<Context>()
 			return c.json(updatedStatus, 200);
 		}
 	)
-
 	.get("/", async (c) => {
 		const inUser = c.get("user");
 		// If user is undefined, log an error

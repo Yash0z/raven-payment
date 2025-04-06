@@ -3,7 +3,6 @@ import _Loader from "@/components/misc/pageLoader";
 import { getContractDetails } from "@/features/contract/use-contract";
 import { TimelineType } from "@/types/types";
 import { formatDate } from "@/utils/dataFormatter";
-import { Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
 
 const ContractDetails: React.FC = () => {

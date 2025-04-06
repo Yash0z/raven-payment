@@ -8,15 +8,16 @@ const app = new Hono<Context>().basePath("/api");
 //cors
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [];
 app.use(
-	"*", // or replace with "*" to enable cors for all routes
+	"*",
 	cors({
 		origin: (origin, _) => {
-			if (allowedOrigins.includes(origin)) {
-				return origin;
+			// Allow Razorpay webhook calls (which might have no origin header)
+			if (!origin || allowedOrigins.includes(origin)) {
+				return origin || "*";
 			}
 			return undefined;
-		}, // replace with your origin
-		allowHeaders: ["Content-Type", "Authorization"],
+		},
+		allowHeaders: ["Content-Type", "Authorization", "x-razorpay-signature"],
 		allowMethods: ["POST", "GET", "OPTIONS"],
 		exposeHeaders: ["Content-Length"],
 		maxAge: 600,
@@ -26,11 +27,11 @@ app.use(
 
 //better-auth middleware
 app.use("*", (c, next) => {
-   if (!c.req.path.includes("/webhook/")) {
-     return SessionMiddleware(c, next);
-   }
-   return next();
- });
+	if (!c.req.path.includes("/webhook/")) {
+		return SessionMiddleware(c, next);
+	}
+	return next();
+});
 
 //better-auth handlers
 app.on(["POST", "GET"], "/auth/*", (c) => {

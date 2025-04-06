@@ -14,10 +14,11 @@ import {
 import { Button } from "../ui/button";
 import ContractTimeline from "../contract/contract-timeline";
 import { TimelineType } from "@/types/types";
-import { useUpdateApproval } from "@/features/approvals/use-approval";
 import { useAtom } from "jotai";
 import { userAtom } from "@/atoms/userAtom";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useUpdateApproval } from "@/features/approvals/use-approval";
 
 interface ApprovalDataProps {
 	data: {
@@ -35,19 +36,12 @@ const ApprovalData: React.FC<ApprovalDataProps> = ({ data }) => {
 	const [user] = useAtom(userAtom);
 	const [showApproveDialog, setShowApproveDialog] = useState(false);
 	const [showRejectDialog, setShowRejectDialog] = useState(false);
-	const { mutate, isPending } = useUpdateApproval(data.hexID);
-
+	const router = useRouter();
+   const { mutate, isPending } = useUpdateApproval();
 	const handleApprove = () => {
 		// Handle approve logic here
-		mutate({
-			contractId: data.hexID,
-			status: "approved",
-			approvedBy: user.id,
-		});
-
-		if (!isPending) {
-			setShowApproveDialog(false);
-		}
+		router.push(`/checkout/${data.hexID}`);
+		setShowApproveDialog(false);
 	};
 
 	const handleReject = () => {

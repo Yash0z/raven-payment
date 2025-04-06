@@ -10,7 +10,6 @@ import {
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 export function NavMain({
 	items,
@@ -35,7 +34,6 @@ export function NavMain({
 								tooltip={item.title}
 								onClick={() => {
 									router.push(item.url);
-									router.refresh();
 								}}
 								className='space-x-4 py-8 px-6  hover:border-l-2 hover:border-primary/90 hover:bg-primary/5'
 							>
