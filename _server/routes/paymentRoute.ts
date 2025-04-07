@@ -1,9 +1,9 @@
 import { Hono } from "hono";
 import { Context } from "../utils/Authcontext";
-import Razorpay from "razorpay";
 import { contract } from "../modules/models/schema";
 import { db } from "../modules/db/db";
 import { eq } from "drizzle-orm";
+import { razorpay } from "../utils/razorpayAPIKEY";
 
 const PaymentRouter = new Hono<Context>()
 	// GET route that accepts contractId as a parameter
@@ -22,10 +22,6 @@ const PaymentRouter = new Hono<Context>()
 				.from(contract)
 				.where(eq(contract.hexId, contractId));
 			// Initialize Razorpay
-			const razorpay = new Razorpay({
-				key_id: process.env.RAZORPAY_KEY_ID,
-				key_secret: process.env.RAZORPAY_SECRET,
-			});
 
 			// Create Razorpay order
 			const order = await razorpay.orders.create({
@@ -33,7 +29,7 @@ const PaymentRouter = new Hono<Context>()
 				currency: "INR", // Change as needed
 				receipt: `contract_${contractId}`,
 				notes: {
-               paymentStatus: "pending",
+					paymentStatus: "pending",
 					contractId: contractId,
 					userId: inUser.id,
 				},

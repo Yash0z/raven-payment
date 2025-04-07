@@ -5,7 +5,6 @@ import {
 	IconBuildingBank,
 	IconCamera,
 	IconContract,
-	IconCurrencyRupee,
 	IconFileAi,
 	IconFileDescription,
 	IconHelp,
@@ -58,11 +57,6 @@ const data = {
 			title: "Payments",
 			url: "/payment",
 			icon: IconBuildingBank,
-		},
-		{
-			title: "Transactions",
-			url: "/transaction",
-			icon: IconCurrencyRupee,
 		},
 		{
 			title: "Contacts",
