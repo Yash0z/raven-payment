@@ -9,6 +9,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+
 export const user = pgTable("user", {
 	id: text("id").primaryKey(),
 	name: text("name").notNull(),
@@ -83,12 +84,30 @@ export const contract = pgTable("contract", {
 	updatedAt: timestamp("updated_at").notNull().defaultNow(), // Last update timestamp
 });
 
+//payment Schema
+export const transaction = pgTable("transaction", {
+	transactionId: text("transaction").primaryKey(),
+	payerId: text("payer")
+		.notNull()
+		.references(() => user.id, { onDelete: "cascade" }),
+	receiverId: text("receiver")
+		.notNull()
+		.references(() => user.merchentId),
+	contractId: text("contract")
+		.notNull()
+		.references(() => contract.hexId),
+	amount: numeric("amount").notNull(), // Remove the reference
+	updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
 export const schema = {
 	user,
 	session,
 	account,
 	contract,
+	transaction,
 };
+
 export const ContractSchema = createInsertSchema(contract).extend({
 	creationDate: z.string().transform((date) => new Date(date)), // Auto-convert to Date
 	expirationDate: z.string().transform((date) => new Date(date)), // Auto-convert to Date

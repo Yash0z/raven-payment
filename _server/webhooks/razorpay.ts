@@ -1,6 +1,7 @@
 import { Hono } from "hono";
+import { Context } from "../utils/Authcontext";
 import crypto from "crypto";
-import { contract } from "../modules/models/schema";
+import { contract, transaction } from "../modules/models/schema";
 import { db } from "../modules/db/db";
 import { eq } from "drizzle-orm";
 
@@ -27,13 +28,17 @@ interface RazorpayPaymentEntity {
 	captured: boolean;
 	description: string | null;
 	notes: {
-		contractId?: string;
+		contractId: string;
+		contractName: string;
+		userId: string;
+		receiverId: string;
+		amount: string;
 		[key: string]: string | undefined;
 	};
 	created_at: number;
 }
 
-const WebhookRouter = new Hono();
+const WebhookRouter = new Hono<Context>();
 
 // Razorpay webhook handler
 WebhookRouter.post("/", async (c) => {
@@ -141,6 +146,17 @@ async function handlePaymentCaptured(
 
 	if (payment.notes.contractId) {
 		await db
+			.insert(transaction)
+			.values({
+				amount: payment.notes.amount,
+				contractId: payment.notes.contractId,
+				payerId: payment.notes.userId,
+				receiverId: payment.notes.receiverId,
+				transactionId: payment.id,
+				updatedAt: new Date(),
+			})
+			.returning();
+		await db
 			.update(contract)
 			.set({
 				paymentStatus: "completed",
@@ -162,7 +178,7 @@ async function handlePaymentFailed(
 		await db
 			.update(contract)
 			.set({
-            paymentStatus: "failed",
+				paymentStatus: "failed",
 				approvalStatus: "pending",
 				updatedAt: new Date(),
 			})

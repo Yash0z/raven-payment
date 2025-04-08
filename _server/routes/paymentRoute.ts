@@ -31,10 +31,13 @@ const PaymentRouter = new Hono<Context>()
 				notes: {
 					paymentStatus: "pending",
 					contractId: contractId,
-					userId: inUser.id,
+					contractName: data.contractName,
+					userId: data.createdBy,
+					receiverId: data.recipientId,
+					amount: data.amount,
 				},
 			});
-
+			console.log(order);
 			return c.json(
 				{
 					success: true,
