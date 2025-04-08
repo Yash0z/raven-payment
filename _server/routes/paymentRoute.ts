@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import { Context } from "../utils/Authcontext";
-import { contract } from "../modules/models/schema";
+import { contract, transaction } from "../modules/models/schema";
 import { db } from "../modules/db/db";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { razorpay } from "../utils/razorpayAPIKEY";
 
 const PaymentRouter = new Hono<Context>()
@@ -55,6 +55,9 @@ const PaymentRouter = new Hono<Context>()
 				500
 			);
 		}
-	});
+	})
+	// GET ALL PAYMENTS
+	
 
+   
 export default PaymentRouter;

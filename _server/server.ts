@@ -44,11 +44,13 @@ import contractRouter from "./routes/contractRoute";
 import ApprovalRouter from "./routes/approvalRoute";
 import PaymentRouter from "./routes/paymentRoute";
 import WebhookRouter from "./webhooks/razorpay";
+import TransactRouter from "./routes/transactRoute";
 const routes = app
 	.route("/user", userRouter)
 	.route("/contract", contractRouter)
 	.route("/approvals", ApprovalRouter)
 	.route("/payment", PaymentRouter)
+	.route("/transaction", TransactRouter)
 	.route("/webhook/razorpay", WebhookRouter);
 export type AppType = typeof routes;
 export default app;
