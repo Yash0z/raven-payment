@@ -31,7 +31,6 @@ interface RazorpayPaymentEntity {
 		contractId: string;
 		contractName: string;
 		userId: string;
-		receiverId: string;
 		amount: string;
 		[key: string]: string | undefined;
 	};
@@ -143,7 +142,7 @@ async function handlePaymentCaptured(
 ): Promise<void> {
 	// Payment is successfully captured
 	console.log("Payment captured:", payment.id);
-
+	console.log(payment.notes);
 	if (payment.notes.contractId) {
 		await db
 			.insert(transaction)
@@ -151,7 +150,6 @@ async function handlePaymentCaptured(
 				amount: payment.notes.amount,
 				contractId: payment.notes.contractId,
 				payerId: payment.notes.userId,
-				receiverId: payment.notes.receiverId,
 				transactionId: payment.id,
 				updatedAt: new Date(),
 			})

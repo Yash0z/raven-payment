@@ -90,9 +90,6 @@ export const transaction = pgTable("transaction", {
 	payerId: text("payer")
 		.notNull()
 		.references(() => user.id, { onDelete: "cascade" }),
-	receiverId: text("receiver")
-		.notNull()
-		.references(() => user.merchentId),
 	contractId: text("contract")
 		.notNull()
 		.references(() => contract.hexId),

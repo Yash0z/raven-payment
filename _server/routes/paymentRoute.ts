@@ -32,8 +32,7 @@ const PaymentRouter = new Hono<Context>()
 					paymentStatus: "pending",
 					contractId: contractId,
 					contractName: data.contractName,
-					userId: data.createdBy,
-					receiverId: data.recipientId,
+					userId: inUser.id,
 					amount: data.amount,
 				},
 			});
