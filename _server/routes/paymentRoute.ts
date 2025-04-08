@@ -32,7 +32,7 @@ const PaymentRouter = new Hono<Context>()
 					paymentStatus: "pending",
 					contractId: contractId,
 					contractName: data.contractName,
-					userId: inUser.id,
+					userEmail: inUser.email,
 					amount: data.amount,
 				},
 			});
@@ -55,9 +55,7 @@ const PaymentRouter = new Hono<Context>()
 				500
 			);
 		}
-	})
-	// GET ALL PAYMENTS
-	
+	});
+// GET ALL PAYMENTS
 
-   
 export default PaymentRouter;

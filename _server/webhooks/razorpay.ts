@@ -30,7 +30,7 @@ interface RazorpayPaymentEntity {
 	notes: {
 		contractId: string;
 		contractName: string;
-		userId: string;
+		userEmail: string;
 		amount: string;
 		[key: string]: string | undefined;
 	};
@@ -149,7 +149,7 @@ async function handlePaymentCaptured(
 			.values({
 				amount: payment.notes.amount,
 				contractId: payment.notes.contractId,
-				payerId: payment.notes.userId,
+				payerId: payment.notes.userEmail,
 				transactionId: payment.id,
 				updatedAt: new Date(),
 			})

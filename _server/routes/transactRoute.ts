@@ -13,7 +13,7 @@ const TransactRouter = new Hono<Context>().get("/all", async (c) => {
 	}
 
 	const transactions = await db.query.transaction.findMany({
-		where: eq(transaction.payerId, inUser.id),
+		where: eq(transaction.payerId, inUser.email),
 	});
 
 	return c.json(transactions);
