@@ -2,14 +2,14 @@
 import ActiveContract from "@/components/contract/activeContractCard";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getActiveContract } from "@/features/contract/use-contract";
+import { getMyContract } from "@/features/contract/use-contract";
 import { formatDate } from "@/utils/dataFormatter";
 import { useQueryClient } from "@tanstack/react-query";
 import { RefreshCcw } from "lucide-react";
 
 export const Footer: React.FC = () => {
 	const queryClient = useQueryClient();
-	const { data, isPending } = getActiveContract();
+	const { data, isPending } = getMyContract();
 
 	return (
 		<>
@@ -37,7 +37,7 @@ export const Footer: React.FC = () => {
 						<Skeleton className='h-7 w-[400px]' />
 					</div>
 				) : (
-					data?.contracts.map((contract, index) => {
+					data?.myContracts.map((contract, index) => {
 						const contractData = {
 							contractHexID: contract.hexId,
 							contractName: contract.contractName,

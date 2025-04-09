@@ -50,7 +50,6 @@ export const getApprovalDetails = (hexId: string) => {
 	return query;
 };
 
-
 //update approval
 export const useUpdateApproval = () => {
 	const queryClient = useQueryClient();
@@ -69,9 +68,8 @@ export const useUpdateApproval = () => {
 			queryClient.invalidateQueries({
 				queryKey: ["approval-data"], // Match the key used in getApprovals
 			});
-			queryClient.invalidateQueries({
-				queryKey: ["approved-contracts"], // Match the key used in getApprovals
-			});
+			queryClient.invalidateQueries({ queryKey: ["all-contracts"] });
+			queryClient.invalidateQueries({ queryKey: ["my-contracts"] });
 			router.push(`/approvals`);
 		},
 		onError: () => {

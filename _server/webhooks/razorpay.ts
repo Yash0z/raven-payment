@@ -160,6 +160,7 @@ async function handlePaymentCaptured(
 				paymentStatus: "completed",
 				approvalStatus: "accepted",
 				updatedAt: new Date(),
+				approvedBy: payment.notes.userEmail,
 			})
 			.where(eq(contract.hexId, payment.notes.contractId))
 			.returning();

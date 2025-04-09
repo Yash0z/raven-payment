@@ -27,7 +27,8 @@ export const useContract = () => {
 		},
 
 		onSuccess: async () => {
-			queryClient.invalidateQueries({ queryKey: ["activeContracts"] });
+			queryClient.invalidateQueries({ queryKey: ["all-contracts"] });
+			queryClient.invalidateQueries({ queryKey: ["my-contracts"] });
 			router.push("/dashboard");
 		},
 		onError: () => {
@@ -38,27 +39,7 @@ export const useContract = () => {
 	});
 	return query;
 };
-
-// get active contrats hook
-export const getActiveContract = () => {
-	const query = useQuery({
-		queryKey: ["approved-contracts"],
-		queryFn: async () => {
-			const res = await client.api.contract.approved.$get();
-			if (!res.ok) {
-				throw new Error("server error");
-			}
-			return await res.json();
-		},
-		refetchOnWindowFocus: false, // Don't refetch on window focus
-		retry: 1, // Only retry once if fails
-	});
-
-	return query;
-};
-
 // get contract data
-
 export const getContractDetails = (hexId: string) => {
 	const query = useQuery({
 		queryKey: ["contract-data", hexId],
@@ -78,6 +59,41 @@ export const getContractDetails = (hexId: string) => {
 		},
 		enabled: !!hexId,
 		refetchOnWindowFocus: false, //run only if you pass the hexid
+	});
+
+	return query;
+};
+
+// all-contracts
+export const getAllContract = () => {
+	const query = useQuery({
+		queryKey: ["all-contracts"],
+		queryFn: async () => {
+			const res = await client.api.contract["all-contracts"].$get();
+			if (!res.ok) {
+				throw new Error("server error");
+			}
+			return await res.json();
+		},
+		refetchOnWindowFocus: false, // Don't refetch on window focus
+		retry: 1, // Only retry once if fails
+	});
+
+	return query;
+};
+// my-contracts
+export const getMyContract = () => {
+	const query = useQuery({
+		queryKey: ["my-contracts"],
+		queryFn: async () => {
+			const res = await client.api.contract["my-contracts"].$get();
+			if (!res.ok) {
+				throw new Error("server error");
+			}
+			return await res.json();
+		},
+		refetchOnWindowFocus: false, // Don't refetch on window focus
+		retry: 1, // Only retry once if fails
 	});
 
 	return query;

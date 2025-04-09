@@ -29,7 +29,6 @@ const contractRouter = new Hono<Context>()
 				return c.json({ error: "Unauthorized" }, 401);
 			}
 			const values = c.req.valid("json");
-			console.log("User:", inUser);
 			const initialStatus = "active";
 			const initialApprovalStatus = "pending";
 
@@ -74,34 +73,51 @@ const contractRouter = new Hono<Context>()
 			return c.json(data);
 		}
 	)
-
-	// get approved contracts
-	.get("/approved", async (c) => {
+	// Get all-contracts  created by user
+	.get("/my-contracts", async (c) => {
 		const inUser = c.get("user");
 		// If user is undefined, log an error
 		if (!inUser) {
+			console.error("Unauthorized access - User is missing.");
 			return c.json({ error: "Unauthorized" }, 401);
 		}
 
-		// Query to get active contracts where recipient email matches user's email
-
-		const contracts = await db.query.contract.findMany({
+		const myContracts = await db.query.contract.findMany({
 			where: and(
-				eq(contract.status, "active"),
 				eq(contract.approvalStatus, "accepted"),
-				eq(contract.paymentStatus, "completed"),
-				eq(contract.recipientEmail, inUser.email)
+				eq(contract.createdBy, inUser.email)
 			),
 		});
-		if (!contracts) return c.json({ a: "b" }, 400);
-		return c.json({ contracts }, 200);
+
+		return c.json({ myContracts }, 200);
 	})
+	// Get all-contracts  approved by user
+	.get("/all-contracts", async (c) => {
+		const inUser = c.get("user");
+		// If user is undefined, log an error
+		if (!inUser) {
+			console.error("Unauthorized access - User is missing.");
+			return c.json({ error: "Unauthorized" }, 401);
+		}
 
-	// get contract details using hexid
+		const allContracts = await db.query.contract.findMany({
+			where: and(
+				eq(contract.approvalStatus, "accepted"),
+				eq(contract.approvedBy, inUser.email)
+			),
+		});
+
+		return c.json({ allContracts }, 200);
+	})
+	// .get contract details using hexid
 	.get("/:hexId", async (c) => {
+		const inUser = c.get("user");
+		// If user is undefined, log an error
+		if (!inUser) {
+			console.error("Unauthorized access - User is missing.");
+			return c.json({ error: "Unauthorized" }, 401);
+		}
 		const { hexId } = c.req.param();
-		console.log(hexId);
-
 		// Query to get class members along with their usernames
 		const [data] = await db
 			.select()
