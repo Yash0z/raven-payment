@@ -11,8 +11,16 @@ export type Transaction = {
 	amount: string;
 	payerId: string;
 };
+export type Contract = {
+	Name: string;
+	hexID: string;
+	createdBy: string;
+	status: string;
+	Approval: string;
+	amount: string;
+};
 
-export const t_columns: ColumnDef<Transaction>[] = [
+export const transactionColumns: ColumnDef<Transaction>[] = [
 	{
 		accessorKey: "transactionId",
 		header: "Transaction ID",
@@ -28,6 +36,33 @@ export const t_columns: ColumnDef<Transaction>[] = [
 	{
 		accessorKey: "payerId",
 		header: "Recipent",
+	},
+	{
+		accessorKey: "amount",
+		header: "Amount",
+	},
+];
+
+export const contractColumns: ColumnDef<Contract>[] = [
+	{
+		accessorKey: "Name",
+		header: "Name",
+	},
+	{
+		accessorKey: "hexID",
+		header: "HexID",
+	},
+	{
+		accessorKey: "createdBy",
+		header: "Created By",
+	},
+	{
+		accessorKey: "status",
+		header: "Status",
+	},
+	{
+		accessorKey: "Approval",
+		header: "Approval",
 	},
 	{
 		accessorKey: "amount",

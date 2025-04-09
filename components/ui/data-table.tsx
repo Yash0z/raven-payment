@@ -20,11 +20,13 @@ import { Button } from "./button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
+	heading: string;
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
 }
 
 export function DataTable<TData, TValue>({
+	heading,
 	columns,
 	data,
 }: DataTableProps<TData, TValue>) {
@@ -37,7 +39,7 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<div>
-			<h1 className='text-3xl font-haskoy-bold mb-10'>Transactions</h1>
+			<h1 className='text-3xl font-haskoy-bold mb-10'>{heading}</h1>
 			<div className='rounded-md border'>
 				<Table className='font-cabinet-medium '>
 					<TableHeader>
@@ -68,7 +70,7 @@ export function DataTable<TData, TValue>({
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map((row) => (
 								<TableRow
-                           className="hover:bg-accent/30"
+									className='hover:bg-accent/30'
 									key={row.id}
 									data-state={row.getIsSelected() && "selected"}
 								>
