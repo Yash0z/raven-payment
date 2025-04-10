@@ -2,7 +2,7 @@
 import { useTransacts } from "@/features/payment/use-payment";
 import _Loader from "../misc/pageLoader";
 import { DataTable } from "../ui/data-table";
-import { transactionColumns } from "./columns";
+import { transactionColumns } from "../misc/columns";
 
 const Transacts: React.FC = () => {
 	const { data, isPending } = useTransacts();

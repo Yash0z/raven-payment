@@ -83,10 +83,7 @@ const contractRouter = new Hono<Context>()
 		}
 
 		const myContracts = await db.query.contract.findMany({
-			where: and(
-				eq(contract.approvalStatus, "accepted"),
-				eq(contract.createdBy, inUser.email)
-			),
+			where: eq(contract.createdBy, inUser.email),
 		});
 
 		return c.json({ myContracts }, 200);
@@ -101,10 +98,7 @@ const contractRouter = new Hono<Context>()
 		}
 
 		const allContracts = await db.query.contract.findMany({
-			where: and(
-				eq(contract.approvalStatus, "accepted"),
-				eq(contract.approvedBy, inUser.email)
-			),
+			where: eq(contract.approvedBy, inUser.email),
 		});
 
 		return c.json({ allContracts }, 200);

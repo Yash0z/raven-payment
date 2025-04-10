@@ -51,7 +51,7 @@ export function DataTable<TData, TValue>({
 								{headerGroup.headers.map((header) => {
 									return (
 										<TableHead
-											className='text-primary/50 text-xl '
+											className='text-muted-foreground text-xl font-haskoy-extrabold pl-4 '
 											key={header.id}
 										>
 											{header.isPlaceholder
@@ -70,12 +70,15 @@ export function DataTable<TData, TValue>({
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map((row) => (
 								<TableRow
-									className='hover:bg-accent/30'
+									className='hover:bg-accent/30 '
 									key={row.id}
 									data-state={row.getIsSelected() && "selected"}
 								>
 									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>
+										<TableCell
+											className='h-18 pl-4 text-[1.3em]'
+											key={cell.id}
+										>
 											{flexRender(
 												cell.column.columnDef.cell,
 												cell.getContext()

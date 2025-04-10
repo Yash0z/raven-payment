@@ -2,7 +2,7 @@
 import _Loader from "../misc/pageLoader";
 import { DataTable } from "../ui/data-table";
 import { getAllContract } from "@/features/contract/use-contract";
-import { contractColumns } from "../transacts/columns";
+import { contractColumns } from "../misc/columns";
 
 const AllContract: React.FC = () => {
 	const { data, isPending } = getAllContract();
