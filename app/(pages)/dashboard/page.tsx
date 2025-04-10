@@ -1,4 +1,3 @@
-
 import { Footer } from "@/components/dashboard/Main/footer/footer";
 import { Box } from "@/components/dashboard/Main/header/box";
 
@@ -13,9 +12,7 @@ export default function Page() {
 			</div>
 			<div className='row-in-main'> </div>
 			<div className='row-in-footer 2xl:grid xl:grid-cols-[3fr_4fr] cols-[left_right]'>
-				<div className='md:cols-in-left w-full'>
-					<Footer />
-				</div>
+				<div className='md:cols-in-left w-full'>{/* <Footer /> */}</div>
 			</div>
 		</main>
 	);

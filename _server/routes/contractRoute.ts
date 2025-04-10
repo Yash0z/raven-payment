@@ -104,7 +104,27 @@ const contractRouter = new Hono<Context>()
 		return c.json({ allContracts }, 200);
 	})
 	// .get contract details using hexid
-	.get("/:hexId", async (c) => {
+	.get("my-contracts/:hexId", async (c) => {
+		const inUser = c.get("user");
+		// If user is undefined, log an error
+		if (!inUser) {
+			console.error("Unauthorized access - User is missing.");
+			return c.json({ error: "Unauthorized" }, 401);
+		}
+		const { hexId } = c.req.param();
+		// Query to get class members along with their usernames
+		const [data] = await db
+			.select()
+			.from(contract)
+			.where(eq(contract.hexId, hexId));
+
+		if (!data) {
+			return c.json({ message: "No Data found" }, 403);
+		}
+
+		return c.json({ data }, 200);
+	})
+	.get("all-contracts/:hexId", async (c) => {
 		const inUser = c.get("user");
 		// If user is undefined, log an error
 		if (!inUser) {

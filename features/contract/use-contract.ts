@@ -39,30 +39,6 @@ export const useContract = () => {
 	});
 	return query;
 };
-// get contract data
-export const getContractDetails = (hexId: string) => {
-	const query = useQuery({
-		queryKey: ["contract-data", hexId],
-		queryFn: async () => {
-			const res = await client.api.contract[":hexId"].$get({
-				param: {
-					hexId: hexId,
-				},
-			});
-
-			if (!res.ok) {
-				throw new Error("Server error");
-			}
-
-			const data = await res.json();
-			return data;
-		},
-		enabled: !!hexId,
-		refetchOnWindowFocus: false, //run only if you pass the hexid
-	});
-
-	return query;
-};
 
 // all-contracts
 export const getAllContract = () => {
@@ -94,6 +70,55 @@ export const getMyContract = () => {
 		},
 		refetchOnWindowFocus: false, // Don't refetch on window focus
 		retry: 1, // Only retry once if fails
+	});
+
+	return query;
+};
+
+
+// get contract data
+export const getMyContractDetails = (hexId: string) => {
+	const query = useQuery({
+		queryKey: ["my-contract-data", hexId],
+		queryFn: async () => {
+			const res = await client.api.contract["my-contracts"][":hexId"].$get({
+				param: {
+					hexId: hexId,
+				},
+			});
+
+			if (!res.ok) {
+				throw new Error("Server error");
+			}
+
+			const data = await res.json();
+			return data;
+		},
+		enabled: !!hexId,
+		refetchOnWindowFocus: false, //run only if you pass the hexid
+	});
+
+	return query;
+};
+export const getAllContractDetails = (hexId: string) => {
+	const query = useQuery({
+		queryKey: ["allcontract-data", hexId],
+		queryFn: async () => {
+			const res = await client.api.contract["all-contracts"][":hexId"].$get({
+				param: {
+					hexId: hexId,
+				},
+			});
+
+			if (!res.ok) {
+				throw new Error("Server error");
+			}
+
+			const data = await res.json();
+			return data;
+		},
+		enabled: !!hexId,
+		refetchOnWindowFocus: false, //run only if you pass the hexid
 	});
 
 	return query;
