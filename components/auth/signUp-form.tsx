@@ -142,7 +142,7 @@ export function SignUpForm({
 									<Button
 										variant='outline'
 										type='button'
-										className='w-[48%] hover:bg-primary'
+										className='w-[48%] bg-card hover:bg-primary'
 									>
 										<svg
 											xmlns='http://www.w3.org/2000/svg'
@@ -160,7 +160,7 @@ export function SignUpForm({
 									<Button
 										variant='outline'
 										type='button'
-										className='w-[48%] hover:bg-primary'
+										className='w-[48%] bg-card hover:bg-primary'
 									>
 										<svg
 											xmlns='http://www.w3.org/2000/svg'

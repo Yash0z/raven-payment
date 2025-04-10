@@ -16,7 +16,10 @@ interface DataProps {
 const MyContractDetails: React.FC<DataProps> = ({ data }) => {
 	return (
 		<>
-			return <>hii{data?.contractAgreement}</>;
+			return <>
+         hii{data?.contractAgreement}
+
+         </>;
 		</>
 	);
 };

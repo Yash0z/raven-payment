@@ -105,7 +105,7 @@ export function SignInForm({
 									className='w-full  text-lg font-cabinet-medium'
 								>
 									{isPending ? (
-										<Loader2 className='animate-spin h-4 w-4' /> 
+										<Loader2 className='animate-spin h-4 w-4' />
 									) : (
 										"Sign in"
 									)}
@@ -121,7 +121,7 @@ export function SignInForm({
 									<Button
 										variant='outline'
 										type='button'
-										className='w-[48%] hover:bg-primary'
+										className='w-[48%] bg-card hover:bg-primary'
 									>
 										<svg
 											xmlns='http://www.w3.org/2000/svg'
@@ -139,7 +139,7 @@ export function SignInForm({
 									<Button
 										variant='outline'
 										type='button'
-										className='w-[48%] hover:bg-primary'
+										className='w-[48%] bg-card hover:bg-primary'
 									>
 										<svg
 											xmlns='http://www.w3.org/2000/svg'
@@ -150,7 +150,7 @@ export function SignInForm({
 												fill='currentColor'
 											/>
 										</svg>
-										<span className='sr-only'>
+										<span className=' sr-only'>
 											Sign in with Google
 										</span>
 									</Button>
