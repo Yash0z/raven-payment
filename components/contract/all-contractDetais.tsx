@@ -13,11 +13,7 @@ interface DataProps {
 		timeline: TimelineType[];
 	};
 }
-const MyContractDetails: React.FC<DataProps> = ({ data }) => {
-	return (
-		<>
-			return <>hii{data?.contractAgreement}</>;
-		</>
-	);
+const AllContractDetails: React.FC<DataProps> = ({ data }) => {
+	return <>hii{data?.contractAgreement}</>;
 };
-export default MyContractDetails;
+export default AllContractDetails;

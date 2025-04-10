@@ -1,21 +1,38 @@
 "use client";
-import _Loader from "@/components/misc/pageLoader";
+import MyContractDetails from "@/components/contract/my-contracDetails";
+import Loader from "@/components/misc/pageLoader";
 import { getMyContractDetails } from "@/features/contract/use-contract";
-import { TimelineType } from "@/types/types";
+import { formatDate } from "@/utils/dataFormatter";
 import { useParams } from "next/navigation";
 
-const MyContractDetails: React.FC = () => {
+const MyContract: React.FC = () => {
 	const { id } = useParams();
 	const hexId = String(Array.isArray(id) ? id[0] : id);
 	const { data, isPending } = getMyContractDetails(hexId);
-	if (!data) {
-		return (
-			<div className='flex justify-center items-center'>
-				<_Loader />
-			</div>
-		);
-	}
-	const TimelineData: Array<TimelineType> = data.data.timeline;
-	return <>Hello from my contract</>;
+
+	return (
+		<main key={hexId} className='p-3 h-full'>
+			{isPending ? (
+				<Loader />
+			) : data ? (
+				<MyContractDetails
+					data={{
+						hexID: hexId,
+						contractName: data.data.contractName,
+						contractStatus: data.data.status,
+						contractAmount: data.data.amount,
+						createdBy: data.data.createdBy,
+						contractAgreement: data.data.agreement,
+						creationDate: formatDate(data.data.creationDate),
+						expirationDate: formatDate(data.data.expirationDate),
+						timeline: data.data.timeline,
+					}}
+				/>
+			) : (
+				<div className='text-center p-4'>No contract data available</div>
+			)}
+		</main>
+	);
 };
-export default MyContractDetails;
+
+export default MyContract;
