@@ -20,7 +20,7 @@ const ContractTimeline: React.FC<TimelineProps> = ({ data }) => {
 
 	return (
 		<>
-			<Timeline>
+			<Timeline className='overflow-y-auto'>
 				{data.map((item, index) => {
 					// Determine dot status based on requirements
 					let dotStatus:
