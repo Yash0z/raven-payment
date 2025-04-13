@@ -12,6 +12,7 @@ import {
 import { Button } from "../ui/button";
 import { AtSign, Link } from "lucide-react";
 import React from "react";
+import { Switch } from "../ui/switch";
 interface DataProps {
 	data: {
 		hexID: string;
@@ -28,7 +29,14 @@ interface DataProps {
 }
 const ApprovedContractDetails: React.FC<DataProps> = ({ data }) => {
 	// State to track if autopay is enabled
+	// State to track if autopay is enabled
+	const [isAutoreleaseEnabled, setIsAutoreleaseEnabled] =
+		React.useState(false);
 
+	// Handler for the switch toggle
+	const handleToggleAutopay = (checked: boolean) => {
+		setIsAutoreleaseEnabled(checked);
+	};
 	const next_due = () => {
 		const lastDoneIndex = data.timeline.reduce((lastIndex, item, index) => {
 			return item.status === "done" ? index : lastIndex;
@@ -92,29 +100,37 @@ const ApprovedContractDetails: React.FC<DataProps> = ({ data }) => {
 						<div className='my-5 flex justify-between'>
 							<div className='flex flex-col'>
 								<h3 className='text-muted-foreground'>
-									Next Due Date :{" "}
+									Next Payment Date :{" "}
 								</h3>
 								<span>{next_due().Date}</span>
 							</div>
 							<div className='flex flex-col'>
 								<h3 className='text-muted-foreground'>
-									Receivable Amount :
+									Amount Payable :
 								</h3>
 								<span> {next_due().Payment}</span>
 							</div>
 						</div>
 						{/* action 1 */}
 						<div className=' my-10'>
-							<h3 className='text-muted-foreground mb-5'>
-								Upload your project files
-							</h3>
+							<div className='flex items-center space-x-3 mb-5'>
+								<Switch
+									id='autopay'
+									checked={isAutoreleaseEnabled}
+									onCheckedChange={handleToggleAutopay}
+								/>
+								<h3 className='text-muted-foreground pb-1'>
+									Auto Release
+								</h3>
+							</div>
 							<Button
 								size={"lg"}
 								variant='outline'
 								onClick={handlePay}
-								className='border-primary' // Button is disabled when autopay is enabled
+								className='border-primary'
+								disabled={isAutoreleaseEnabled} // Button is disabled when autopay is enabled
 							>
-								Upload
+								Manual Release
 							</Button>
 						</div>
 
@@ -143,14 +159,14 @@ const ApprovedContractDetails: React.FC<DataProps> = ({ data }) => {
 						<div className='mt-10 flex flex-col gap-40'>
 							<div>
 								<h3 className='text-muted-foreground mb-5 '>
-									Didn&apos;t received your Payment ??
+									Didn&apos;t received your project files ??
 								</h3>
 								<Button variant='secondary' className='rounded-full '>
 									<span>
 										<AtSign />
 									</span>
 									<span className='pb-[0.2em]'>
-										Contact - {data.recipent}
+										Contact - {data.createdBy}
 									</span>
 								</Button>
 							</div>

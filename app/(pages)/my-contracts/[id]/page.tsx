@@ -26,6 +26,7 @@ const MyContract: React.FC = () => {
 						creationDate: formatDate(data.data.creationDate),
 						expirationDate: formatDate(data.data.expirationDate),
 						timeline: data.data.timeline,
+						recipent: data.data.recipientEmail,
 					}}
 				/>
 			) : (
