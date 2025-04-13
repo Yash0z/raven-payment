@@ -34,11 +34,7 @@ export type TimelineType = {
 	date: string;
 	status: string;
 	title: string;
-	payment?: {
-		amount?: number;
-		currency?: string;
-		[key: string]: any;
-	};
+	payment: string;
 	[key: string]: any;
 	// Allow for other properties
 };

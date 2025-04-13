@@ -1,6 +1,6 @@
 "use client";
 
-import AllContract from "@/components/contract/all-contract";
+import AllContract from "@/components/all-contract/all-contract";
 
 const AllContractsPage: React.FC = () => {
 	return (

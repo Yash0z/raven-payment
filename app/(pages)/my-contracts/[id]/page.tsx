@@ -1,5 +1,5 @@
 "use client";
-import MyContractDetails from "@/components/contract/my-contracDetails";
+import MyContractDetails from "@/components/my-contract/my-contracDetails";
 import Loader from "@/components/misc/pageLoader";
 import { getMyContractDetails } from "@/features/contract/use-contract";
 import { formatDate } from "@/utils/dataFormatter";
