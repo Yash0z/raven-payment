@@ -45,7 +45,7 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
 	},
 ];
 
-export const contractColumns: ColumnDef<Contract>[] = [
+export const MycontractColumns: ColumnDef<Contract>[] = [
 	{
 		accessorKey: "Name",
 		header: "Name",
@@ -80,6 +80,54 @@ export const contractColumns: ColumnDef<Contract>[] = [
 					className='text-[0.8em]'
 					variant='outline'
 					onClick={() => (window.location.href = `/my-contracts/${hexID}`)}
+				>
+					<span>view</span>
+					<span>
+						<Eye />
+					</span>
+				</Button>
+			);
+		},
+	},
+];
+
+export const AllcontractColumns: ColumnDef<Contract>[] = [
+	{
+		accessorKey: "Name",
+		header: "Name",
+	},
+	{
+		accessorKey: "hexID",
+		header: "HexID",
+	},
+	{
+		accessorKey: "createdBy",
+		header: "Created By",
+	},
+	{
+		accessorKey: "status",
+		header: "Status",
+	},
+	{
+		accessorKey: "Approval",
+		header: "Approval",
+	},
+	{
+		accessorKey: "amount",
+		header: "Amount",
+	},
+	{
+		id: "actions",
+		cell: ({ row }) => {
+			const hexID = row.original.hexID; // Extract just the hexID property
+
+			return (
+				<Button
+					className='text-[0.8em]'
+					variant='outline'
+					onClick={() =>
+						(window.location.href = `/all-contracts/${hexID}`)
+					}
 				>
 					<span>view</span>
 					<span>

@@ -174,7 +174,9 @@ const MyContractDetails: React.FC<DataProps> = ({ data }) => {
 									onClick={handlePay}
 									className='border-s'
 								>
-									Put Contract on Hold
+									{data.contractStatus === "hold"
+										? "Activate Contract"
+										: "Put Contract on Hold"}
 								</Button>
 								<Button
 									size={"lg"}

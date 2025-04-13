@@ -2,7 +2,7 @@
 import _Loader from "../misc/pageLoader";
 import { DataTable } from "../ui/data-table";
 import { getAllContract } from "@/features/contract/use-contract";
-import { contractColumns } from "../misc/columns";
+import { AllcontractColumns } from "../misc/columns";
 
 const AllContract: React.FC = () => {
 	const { data, isPending } = getAllContract();
@@ -13,6 +13,7 @@ const AllContract: React.FC = () => {
 		status: item.status,
 		Approval: item.approvalStatus,
 		amount: item.amount,
+      recipent: item.recipientEmail
 	}));
 	console.log(tableData);
 	return (
@@ -22,7 +23,7 @@ const AllContract: React.FC = () => {
 			) : tableData ? (
 				<DataTable
 					heading='Contracts'
-					columns={contractColumns}
+					columns={AllcontractColumns}
 					data={tableData}
 				/>
 			) : (

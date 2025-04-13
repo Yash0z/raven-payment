@@ -2,7 +2,7 @@
 import _Loader from "../misc/pageLoader";
 import { DataTable } from "../ui/data-table";
 import { getMyContract } from "@/features/contract/use-contract";
-import { contractColumns } from "../misc/columns";
+import { MycontractColumns } from "../misc/columns";
 
 const MyContract: React.FC = () => {
 	const { data, isPending } = getMyContract();
@@ -22,7 +22,7 @@ const MyContract: React.FC = () => {
 			) : tableData ? (
 				<DataTable
 					heading='My Contracts'
-					columns={contractColumns}
+					columns={MycontractColumns}
 					data={tableData}
 				/>
 			) : (
