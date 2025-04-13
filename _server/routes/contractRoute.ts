@@ -5,7 +5,7 @@ import { contract, ContractSchema, user } from "../modules/models/schema";
 import { db } from "../modules/db/db";
 import { generateHEXID } from "../utils/generateHEXID";
 import { generateTimeline } from "../utils/generateTimeline";
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 const contractRouter = new Hono<Context>()
 	//  create a new contract
@@ -73,7 +73,7 @@ const contractRouter = new Hono<Context>()
 			return c.json(data);
 		}
 	)
-	// Get all-contracts  created by user
+	// Get my-contracts
 	.get("/my-contracts", async (c) => {
 		const inUser = c.get("user");
 		// If user is undefined, log an error
@@ -88,8 +88,8 @@ const contractRouter = new Hono<Context>()
 
 		return c.json({ myContracts }, 200);
 	})
-	// Get all-contracts  approved by user
-	.get("/all-contracts", async (c) => {
+	// Get approved-contracts
+	.get("/approved-contracts", async (c) => {
 		const inUser = c.get("user");
 		// If user is undefined, log an error
 		if (!inUser) {
@@ -97,13 +97,14 @@ const contractRouter = new Hono<Context>()
 			return c.json({ error: "Unauthorized" }, 401);
 		}
 
-		const allContracts = await db.query.contract.findMany({
+		const approvedContracts = await db.query.contract.findMany({
 			where: eq(contract.approvedBy, inUser.email),
 		});
 
-		return c.json({ allContracts }, 200);
+		return c.json({ approvedContracts }, 200);
 	})
-	// .get contract details using hexid
+
+	// .get mycontract details using hexid
 	.get("my-contracts/:hexId", async (c) => {
 		const inUser = c.get("user");
 		// If user is undefined, log an error
@@ -124,7 +125,8 @@ const contractRouter = new Hono<Context>()
 
 		return c.json({ data }, 200);
 	})
-	.get("all-contracts/:hexId", async (c) => {
+	// .get approvedcontract details using hexid
+	.get("approved-contracts/:hexId", async (c) => {
 		const inUser = c.get("user");
 		// If user is undefined, log an error
 		if (!inUser) {
