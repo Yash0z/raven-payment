@@ -44,8 +44,8 @@ const data = {
 			icon: IconLogs,
 		},
 		{
-			title: "All Contracts",
-			url: "/all-contracts",
+			title: "Contracts",
+			url: "/approved-contracts",
 			icon: IconContract,
 		},
 		{

@@ -1,19 +1,19 @@
 "use client";
 import _Loader from "../misc/pageLoader";
 import { DataTable } from "../ui/data-table";
-import { getAllContract } from "@/features/contract/use-contract";
-import { AllcontractColumns } from "../misc/columns";
+import { getApprovedContract } from "@/features/contract/use-contract";
+import { ApprovedContractColumns } from "../misc/columns";
 
-const AllContract: React.FC = () => {
-	const { data, isPending } = getAllContract();
-	const tableData = data?.allContracts.map((item) => ({
+const ApprovedContract: React.FC = () => {
+	const { data, isPending } = getApprovedContract();
+	const tableData = data?.approvedContracts.map((item) => ({
 		Name: item.contractName,
 		hexID: item.hexId,
 		createdBy: item.createdBy,
 		status: item.status,
 		Approval: item.approvalStatus,
 		amount: item.amount,
-      recipent: item.recipientEmail
+		recipent: item.recipientEmail,
 	}));
 	console.log(tableData);
 	return (
@@ -22,8 +22,8 @@ const AllContract: React.FC = () => {
 				<_Loader />
 			) : tableData ? (
 				<DataTable
-					heading='Contracts'
-					columns={AllcontractColumns}
+					heading='Approved Contracts'
+					columns={ApprovedContractColumns}
 					data={tableData}
 				/>
 			) : (
@@ -33,4 +33,4 @@ const AllContract: React.FC = () => {
 	);
 };
 
-export default AllContract;
+export default ApprovedContract;

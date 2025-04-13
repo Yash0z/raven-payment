@@ -26,7 +26,7 @@ interface DataProps {
 		recipent: string;
 	};
 }
-const AllContractDetails: React.FC<DataProps> = ({ data }) => {
+const ApprovedContractDetails: React.FC<DataProps> = ({ data }) => {
 	// State to track if autopay is enabled
 
 	const next_due = () => {
@@ -185,4 +185,4 @@ const AllContractDetails: React.FC<DataProps> = ({ data }) => {
 		</>
 	);
 };
-export default AllContractDetails;
+export default ApprovedContractDetails;

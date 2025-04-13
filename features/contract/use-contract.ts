@@ -40,12 +40,12 @@ export const useContract = () => {
 	return query;
 };
 
-// all-contracts
-export const getAllContract = () => {
+// approved-contracts
+export const getApprovedContract = () => {
 	const query = useQuery({
-		queryKey: ["all-contracts"],
+		queryKey: ["approved-contracts"],
 		queryFn: async () => {
-			const res = await client.api.contract["all-contracts"].$get();
+			const res = await client.api.contract["approved-contracts"].$get();
 			if (!res.ok) {
 				throw new Error("server error");
 			}
@@ -75,7 +75,6 @@ export const getMyContract = () => {
 	return query;
 };
 
-
 // get contract data
 export const getMyContractDetails = (hexId: string) => {
 	const query = useQuery({
@@ -100,11 +99,13 @@ export const getMyContractDetails = (hexId: string) => {
 
 	return query;
 };
-export const getAllContractDetails = (hexId: string) => {
+export const getApprovedContractDetails = (hexId: string) => {
 	const query = useQuery({
 		queryKey: ["allcontract-data", hexId],
 		queryFn: async () => {
-			const res = await client.api.contract["all-contracts"][":hexId"].$get({
+			const res = await client.api.contract["approved-contracts"][
+				":hexId"
+			].$get({
 				param: {
 					hexId: hexId,
 				},

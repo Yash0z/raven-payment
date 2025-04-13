@@ -91,7 +91,7 @@ export const MycontractColumns: ColumnDef<Contract>[] = [
 	},
 ];
 
-export const AllcontractColumns: ColumnDef<Contract>[] = [
+export const ApprovedContractColumns: ColumnDef<Contract>[] = [
 	{
 		accessorKey: "Name",
 		header: "Name",
@@ -126,7 +126,7 @@ export const AllcontractColumns: ColumnDef<Contract>[] = [
 					className='text-[0.8em]'
 					variant='outline'
 					onClick={() =>
-						(window.location.href = `/all-contracts/${hexID}`)
+						(window.location.href = `/approved-contracts/${hexID}`)
 					}
 				>
 					<span>view</span>
