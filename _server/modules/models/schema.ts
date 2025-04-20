@@ -101,7 +101,8 @@ export const transaction = pgTable("transaction", {
 export const scheduled = pgTable("scheduled", {
 	contractId: text("contractId")
 		.notNull()
-		.references(() => contract.hexId),
+		.references(() => contract.hexId)
+		.primaryKey(),
 	milestoneId: text("milestone"),
 	senderId: text("sender"),
 	receiverId: text("receiver"),

@@ -29,7 +29,7 @@ export const getApprovals = () => {
 //approva; details
 export const getApprovalDetails = (hexId: string) => {
 	const query = useQuery({
-		queryKey: ["approval-data", hexId],
+		queryKey: ["approval-details", hexId],
 		queryFn: async () => {
 			const res = await client.api.approvals[":hexId"].$get({
 				param: {
@@ -68,7 +68,10 @@ export const useUpdateApproval = () => {
 			queryClient.invalidateQueries({
 				queryKey: ["approval-data"], // Match the key used in getApprovals
 			});
-			queryClient.invalidateQueries({ queryKey: ["all-contracts"] });
+         queryClient.invalidateQueries({
+				queryKey: ["approval-details"], // Match the key used in getApprovals
+			});
+			queryClient.invalidateQueries({ queryKey: ["approved-contracts"] });
 			queryClient.invalidateQueries({ queryKey: ["my-contracts"] });
 			router.push(`/approvals`);
 		},

@@ -13,6 +13,7 @@ import { Button } from "../ui/button";
 import { AtSign, Link } from "lucide-react";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 interface DataProps {
 	data: {
 		hexID: string;
@@ -28,21 +29,32 @@ interface DataProps {
 	};
 }
 const MyContractDetails: React.FC<DataProps> = ({ data }) => {
+	const router = useRouter();
+
 	const next_due = () => {
 		const lastDoneIndex = data.timeline.reduce((lastIndex, item, index) => {
 			return item.status === "done" ? index : lastIndex;
 		}, -1);
 		const index = lastDoneIndex + 1;
+
+		// Check if we've reached the end of the timeline
+		if (index >= data.timeline.length) {
+			return null; // No more items to pay
+		}
+
 		const nextDate = data.timeline[index].date;
 		const nextPay = "₹" + data.timeline[index].payment;
 		return {
 			Date: nextDate,
 			Payment: nextPay,
+			index: index,
 		};
 	};
+
 	const handlePay = () => {
 		console.log();
 	};
+
 	return (
 		<>
 			<main className='w-full h-full  p-3 grid grid-rows-[1fr_6fr] gap-3'>
@@ -88,34 +100,47 @@ const MyContractDetails: React.FC<DataProps> = ({ data }) => {
 					{/* -------- */}
 					{/* Action View */}
 					<div className='md:w-[59%] p-5 '>
-						<div className='my-5 flex justify-between'>
-							<div className='flex flex-col'>
-								<h3 className='text-muted-foreground'>
-									Next Due Date :{" "}
+						{next_due() ? (
+							<>
+								<div className='my-5 flex justify-between'>
+									<div className='flex flex-col'>
+										<h3 className='text-muted-foreground'>
+											Next Due Date :{" "}
+										</h3>
+										<span>{next_due()?.Date}</span>
+									</div>
+									<div className='flex flex-col'>
+										<h3 className='text-muted-foreground'>
+											Receivable Amount :
+										</h3>
+										<span>{next_due()?.Payment}</span>
+									</div>
+								</div>
+								{/* action 1 */}
+								<div className=' my-10'>
+									<h3 className='text-muted-foreground mb-5'>
+										Upload your project files
+									</h3>
+									<Button
+										size={"lg"}
+										variant='outline'
+										onClick={handlePay}
+										className='border-primary'
+									>
+										Upload
+									</Button>
+								</div>
+							</>
+						) : (
+							<div className='my-5 p-4 border rounded-lg text-center'>
+								<h3 className='text-primary font-semibold text-lg'>
+									Contract Completed
 								</h3>
-								<span>{next_due().Date}</span>
+								<p className='text-muted-foreground mt-2'>
+									All milestones for this contract have been completed.
+								</p>
 							</div>
-							<div className='flex flex-col'>
-								<h3 className='text-muted-foreground'>
-									Receivable Amount :
-								</h3>
-								<span> {next_due().Payment}</span>
-							</div>
-						</div>
-						{/* action 1 */}
-						<div className=' my-10'>
-							<h3 className='text-muted-foreground mb-5'>
-								Upload your project files
-							</h3>
-							<Button
-								size={"lg"}
-								variant='outline'
-								onClick={handlePay}
-								className='border-primary' // Button is disabled when autopay is enabled
-							>
-								Upload
-							</Button>
-						</div>
+						)}
 
 						<Dialog>
 							<DialogHeader className='text-2xl font-satoshi-regular pb-5 text-muted-foreground'>
@@ -154,26 +179,40 @@ const MyContractDetails: React.FC<DataProps> = ({ data }) => {
 								</Button>
 							</div>
 
-							<div className='flex justify-end gap-2 '>
-								{" "}
-								<Button
-									size={"lg"}
-									variant='outline'
-									onClick={handlePay}
-									className='border-s'
-								>
-									{data.contractStatus === "hold"
-										? "Activate Contract"
-										: "Put Contract on Hold"}
-								</Button>
-								<Button
-									size={"lg"}
-									variant='outline'
-									onClick={handlePay}
-									className='border-destructive hover:bg-destructive hover:text-muted'
-								>
-									Cancel Contract
-								</Button>
+							<div className='flex justify-end gap-2'>
+								{next_due() ? (
+									<>
+										<Button
+											size={"lg"}
+											variant='outline'
+											onClick={handlePay}
+											className='border-s'
+										>
+											{data.contractStatus === "hold"
+												? "Activate Contract"
+												: "Put Contract on Hold"}
+										</Button>
+										<Button
+											size={"lg"}
+											variant='outline'
+											onClick={handlePay}
+											className='border-destructive hover:bg-destructive hover:text-muted'
+										>
+											Cancel Contract
+										</Button>
+									</>
+								) : (
+									<Button
+										onClick={() => {
+											router.push("/dashboard");
+										}}
+										size={"lg"}
+										variant='outline'
+										className='hover:bg-destructive hover:text-muted'
+									>
+										Exit
+									</Button>
+								)}
 							</div>
 						</div>
 					</div>

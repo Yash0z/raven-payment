@@ -27,9 +27,12 @@ export const useContract = () => {
 		},
 
 		onSuccess: async () => {
-			queryClient.invalidateQueries({ queryKey: ["all-contracts"] });
+			queryClient.invalidateQueries({ queryKey: ["approved-contracts"] });
 			queryClient.invalidateQueries({ queryKey: ["my-contracts"] });
 			router.push("/dashboard");
+			toast("Contract Created", {
+				position: "top-right",
+			});
 		},
 		onError: () => {
 			toast("Contract Approval failed", {
@@ -101,7 +104,7 @@ export const getMyContractDetails = (hexId: string) => {
 };
 export const getApprovedContractDetails = (hexId: string) => {
 	const query = useQuery({
-		queryKey: ["allcontract-data", hexId],
+		queryKey: ["approved-contract-data", hexId],
 		queryFn: async () => {
 			const res = await client.api.contract["approved-contracts"][
 				":hexId"
