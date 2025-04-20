@@ -1,10 +1,10 @@
 import { Hono } from "hono";
 import { Context } from "../utils/Authcontext";
 import crypto from "crypto";
-import { contract, transaction } from "../modules/models/schema";
+import { contract, scheduled, transaction } from "../modules/models/schema";
 import { db } from "../modules/db/db";
 import { eq } from "drizzle-orm";
-
+import { TimelineType } from "@/types/types";
 // Define types for Razorpay webhook payloads
 interface RazorpayWebhookBody {
 	event: string;
@@ -164,6 +164,36 @@ async function handlePaymentCaptured(
 			})
 			.where(eq(contract.hexId, payment.notes.contractId))
 			.returning();
+	}
+	//create scheduled payouts
+	const [contractData] = await db
+		.select()
+		.from(contract)
+		.where(eq(contract.hexId, payment.notes.contractId));
+      console.log("donedata")
+	const timeline = contractData.timeline as TimelineType[];
+   console.log(timeline)
+	for (const milestone of timeline) {
+		try {
+			// Convert date format from DD-MM-YY to a proper Date object
+			const [day, month, year] = milestone.date.split("-");
+			const payoutDate = new Date(`20${year}-${month}-${day}T12:00:00Z`);
+			// Otherwise, store in database for scheduled processing
+			await db.insert(scheduled).values({
+				contractId: contractData.hexId,
+				milestoneId: milestone.id,
+				senderId: contractData.approvedBy,
+				receiverId: contractData.createdBy,
+				amount: milestone.payment,
+				scheduledDate: payoutDate,
+				status: "scheduled",
+			});
+		} catch (error) {
+			console.error(
+				`Error scheduling payout for milestone ${milestone.id}:`,
+				error
+			);
+		}
 	}
 }
 

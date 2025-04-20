@@ -52,7 +52,7 @@ export const account = pgTable("account", {
 	updatedAt: timestamp("updated_at").notNull(),
 });
 export const contract = pgTable("contract", {
-	hexId: text("hex_id").primaryKey(), // Unique HEXID (3 letters + 3 numbers)
+	hexId: text("hex_id").primaryKey().unique(), // Unique HEXID (3 letters + 3 numbers)
 	contractName: text("name").notNull(), // Contract Name
 	amount: numeric("amount", { precision: 10, scale: 2 }).notNull(), // Contract Amount
 	status: text("status", {
@@ -80,7 +80,7 @@ export const contract = pgTable("contract", {
 	paymentStatus: text("payment_status", {
 		enum: ["pending", "completed", "failed"],
 	}).default("pending"),
-	approvedBy: text("approved_by").references(() => user.email ), // ID of the approving party
+	approvedBy: text("approved_by").references(() => user.email), // ID of the approving party
 	updatedAt: timestamp("updated_at").notNull().defaultNow(), // Last update timestamp
 });
 
@@ -95,6 +95,21 @@ export const transaction = pgTable("transaction", {
 		.references(() => contract.hexId),
 	amount: numeric("amount").notNull(), // Remove the reference
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+//schedule transactions schema
+export const scheduled = pgTable("scheduled", {
+	contractId: text("contractId")
+		.notNull()
+		.references(() => contract.hexId),
+	milestoneId: text("milestone"),
+	senderId: text("sender"),
+	receiverId: text("receiver"),
+	amount: text("payable"),
+	scheduledDate: timestamp("scheduled_at").notNull().defaultNow(),
+	status: text("status", {
+		enum: ["scheduled", "completed"],
+	}).default("scheduled"),
 });
 
 export const schema = {
