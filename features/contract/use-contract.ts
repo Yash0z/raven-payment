@@ -12,6 +12,12 @@ type contractRequestType = InferRequestType<
 	typeof client.api.contract.new.$post
 >["json"];
 
+type updateRequestType = InferRequestType<
+	typeof client.api.contract.update.$patch
+>["json"];
+type updateResponseType = InferRequestType<
+	typeof client.api.contract.update.$patch
+>;
 //create contract hook
 export const useContract = () => {
 	const queryClient = useQueryClient();
@@ -125,5 +131,39 @@ export const getApprovedContractDetails = (hexId: string) => {
 		refetchOnWindowFocus: false, //run only if you pass the hexid
 	});
 
+	return query;
+};
+
+//update contract status
+export const useUpdateConstract = () => {
+	const queryClient = useQueryClient();
+	const router = useRouter();
+	const query = useMutation<updateResponseType, Error, updateRequestType>({
+		mutationKey: ["update-contract-status"],
+		mutationFn: async (json) => {
+			const res = await client.api.contract.update.$patch({ json });
+			if (!res.ok) {
+				throw new Error("server error");
+			}
+			return await res.json();
+		},
+
+		onSuccess: async () => {
+			queryClient.invalidateQueries({
+				queryKey: ["approval-data"], // Match the key used in getApprovals
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["approval-details"], // Match the key used in getApprovals
+			});
+			queryClient.invalidateQueries({ queryKey: ["approved-contracts"] });
+			queryClient.invalidateQueries({ queryKey: ["my-contracts"] });
+			router.push(`/dashboard`);
+		},
+		onError: () => {
+			toast("Contract failed", {
+				position: "top-right",
+			});
+		},
+	});
 	return query;
 };

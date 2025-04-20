@@ -6,6 +6,7 @@ import { db } from "../modules/db/db";
 import { generateHEXID } from "../utils/generateHEXID";
 import { generateTimeline } from "../utils/generateTimeline";
 import { eq } from "drizzle-orm";
+import { z } from "zod";
 
 const contractRouter = new Hono<Context>()
 	//  create a new contract
@@ -145,6 +146,25 @@ const contractRouter = new Hono<Context>()
 		}
 
 		return c.json({ data }, 200);
-	});
+	})
+	.patch("/update",
+		zValidator(
+			"json",
+			z.object({
+				contractId: z.string(),
+			})
+		),
+		async (c) => {
+			const values = c.req.valid("json");
+			const [updatedStatus] = await db
+				.update(contract)
+				.set({
+					status: "completed",
+				})
+				.where(eq(contract.hexId, values.contractId))
+				.returning();
 
+			return c.json(updatedStatus, 200);
+		}
+	);
 export default contractRouter;

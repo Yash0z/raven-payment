@@ -24,7 +24,7 @@ import { AtSign, Link, CheckCircle, Loader2 } from "lucide-react";
 import React from "react";
 import { Switch } from "../ui/switch";
 import { usePayout } from "@/features/payment/use-payout";
-import { useRouter } from "next/navigation";
+import { useUpdateConstract } from "@/features/contract/use-contract";
 
 interface DataProps {
 	data: {
@@ -50,12 +50,11 @@ const ApprovedContractDetails: React.FC<DataProps> = ({ data }) => {
 	const [isProcessing, setIsProcessing] = React.useState(false);
 	const [processingMessage, setProcessingMessage] =
 		React.useState("Processing...");
-	const router = useRouter();
 	// Handler for the switch toggle
 	const handleToggleAutopay = (checked: boolean) => {
 		setIsAutoreleaseEnabled(checked);
 	};
-
+	const { mutate: update } = useUpdateConstract();
 	const next_due = () => {
 		const lastDoneIndex = data.timeline.reduce((lastIndex, item, index) => {
 			return item.status === "done" ? index : lastIndex;
@@ -76,7 +75,7 @@ const ApprovedContractDetails: React.FC<DataProps> = ({ data }) => {
 		};
 	};
 
-	const { mutate } = usePayout();
+	const { mutate, isPending } = usePayout();
 
 	const handleConfirmPay = (e: React.MouseEvent) => {
 		// Prevent default to avoid dialog closing
@@ -118,7 +117,7 @@ const ApprovedContractDetails: React.FC<DataProps> = ({ data }) => {
 			// Update processing message after 4 seconds
 			setTimeout(() => {
 				setProcessingMessage("Almost done...");
-			}, 4000);
+			}, 2000);
 
 			// Keep dialog open for 6 seconds before closing
 			setTimeout(() => {
@@ -200,7 +199,7 @@ const ApprovedContractDetails: React.FC<DataProps> = ({ data }) => {
 								{/* action 1 */}
 								<div className='my-10'>
 									{showSuccess && (
-										<Alert className='mb-4 border-green-500 bg-green-50 text-green-800'>
+										<Alert className='mb-4 border-primary bg text-primary'>
 											<AlertDescription className='flex items-center gap-2'>
 												<CheckCircle className='h-4 w-4' />
 												Payment of {next_due()?.Payment} has been
@@ -249,10 +248,10 @@ const ApprovedContractDetails: React.FC<DataProps> = ({ data }) => {
 												</AlertDialogTitle>
 												<AlertDialogDescription>
 													{isProcessing ? (
-														<div className='flex flex-col items-center justify-center gap-4 py-4'>
+														<span className='flex flex-col items-center justify-center gap-4 py-4'>
 															<Loader2 className='h-8 w-8 animate-spin text-primary' />
 															<span>{processingMessage}</span>
-														</div>
+														</span>
 													) : (
 														<>
 															Are you sure you want to release
@@ -353,13 +352,19 @@ const ApprovedContractDetails: React.FC<DataProps> = ({ data }) => {
 								) : (
 									<Button
 										onClick={() => {
-											router.push("/dashboard");
+											update({
+												contractId: data.hexID,
+											});
 										}}
 										size={"lg"}
 										variant='outline'
 										className='hover:bg-destructive hover:text-muted'
 									>
-										Exit
+										{isPending ? (
+											<Loader2 className='h-8 w-8 animate-spin text-primary' />
+										) : (
+											"Exit"
+										)}
 									</Button>
 								)}
 							</div>
