@@ -5,7 +5,7 @@ import { contract, ContractSchema, user } from "../modules/models/schema";
 import { db } from "../modules/db/db";
 import { generateHEXID } from "../utils/generateHEXID";
 import { generateTimeline } from "../utils/generateTimeline";
-import { and, eq } from "drizzle-orm";
+import { and, eq, or } from "drizzle-orm";
 import { z } from "zod";
 
 const contractRouter = new Hono<Context>()
@@ -85,7 +85,10 @@ const contractRouter = new Hono<Context>()
 
 		const OngoingContracts = await db.query.contract.findMany({
 			where: and(
-				eq(contract.createdBy, inUser.email),
+            or(
+               eq(contract.createdBy, inUser.email),
+               eq(contract.approvedBy, inUser.email),
+            ),
 				eq(contract.status, "active")
 			),
 		});
