@@ -59,7 +59,7 @@ const ContractTimeline: React.FC<TimelineProps> = ({ data }) => {
 								status={item.status === "done" ? "done" : "default"}
 								className='text-[0.8em]'
 							>
-								{item.title || `Payment: $${item.payment}`}
+								{item.title || `Payment: ₹${item.payment}`}
 							</TimelineContent>
 						</TimelineItem>
 					);

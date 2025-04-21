@@ -9,7 +9,7 @@ export default function Page() {
 				<Box />
 			</div>
 			<div className='flex w-full px-10 '>
-				<div className='max-h-md  w-[60%] '>
+				<div className='max-h-md  w-[70%]  '>
 					<h1 className='text-muted-foreground font-haskoy-bold text-2xl my-5  pl-1'>
 						On-going Contracts
 					</h1>

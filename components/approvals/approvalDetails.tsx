@@ -73,7 +73,7 @@ const ApprovalData: React.FC<ApprovalDataProps> = ({ data }) => {
 						</p>
 					</div>
 					<div className='text-right'>
-						<p className='text-3xl '>{data?.ContractAmount}</p>
+						<p className='text-3xl '>₹ {data?.ContractAmount}</p>
 					</div>
 				</div>
 

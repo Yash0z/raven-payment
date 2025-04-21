@@ -1,10 +1,13 @@
 "use client";
 import _Loader from "@/components/misc/pageLoader";
 import { Button } from "@/components/ui/button";
+import { getApprovedContractDetails } from "@/features/contract/use-contract";
 import { useQueryClient } from "@tanstack/react-query";
+import { ArrowRight, Check } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
+import { Skeleton } from "../ui/skeleton";
 
 interface OrderData {
 	success: boolean;
@@ -55,9 +58,11 @@ declare global {
 const RazorpayCheckout: React.FC = () => {
 	const router = useRouter();
 	const { id } = useParams();
+	const hexId = String(Array.isArray(id) ? id[0] : id);
 	const [loading, setLoading] = React.useState(false);
 	const [paymentComplete, setPaymentComplete] = React.useState(false);
 	const queryClient = useQueryClient();
+	const { data, isPending } = getApprovedContractDetails(hexId);
 	// Function to load the Razorpay script
 	const loadRazorpayScript = () => {
 		return new Promise((resolve) => {
@@ -163,18 +168,54 @@ const RazorpayCheckout: React.FC = () => {
 	};
 
 	return (
-		<div className='flex flex-col items-center justify-center h-screen'>
+		<div
+			className={`flex flex-col justify-center ${
+				!paymentComplete ? "border-2" : ""
+			} min-w-lg my-80 p-6 rounded-lg shadow-md`}
+		>
+			{!paymentComplete && (
+				<>
+					<div className='text-xl text-left font-satoshi-regular mb-6'>
+						You&apos;ve to Pay
+					</div>
+					<div className='w-full mb-6 text-4xl font-haskoy-extrabold'>
+						{isPending ? (
+							<Skeleton className='h-8 w-[200px] rounded-xl' />
+						) : (
+							<div>₹ {data?.data.amount}</div>
+						)}
+					</div>
+				</>
+			)}
+
 			{paymentComplete ? (
 				<_Loader />
 			) : (
-				<Button
-					onClick={handlePayment}
-					disabled={loading}
-					className='rounded-md'
-					variant='outline'
-				>
-					{loading ? "Processing..." : "Pay Now"}
-				</Button>
+				<div className='flex flex-col items-left border w-full'>
+					<Button
+						onClick={handlePayment}
+						disabled={loading && isPending}
+						variant='outline'
+						size={"lg"}
+						className='flex    justify-center  py-3 px-4 rounded-md border p-3  transition-colors disabled:opacity-70'
+					>
+						{loading ? "Processing..." : "Pay Now"}
+						{!loading && <ArrowRight className='ml-2 h-4 w-4' />}
+					</Button>
+				</div>
+			)}
+
+			{!paymentComplete && (
+				<div className='mt-6 w-full'>
+					<div className='flex items-center mb-4'>
+						<div className='rounded-full  p-1 mr-2'>
+							<Check className='h-3 w-3 ' />
+						</div>
+						<p className='text-sm text-gray-600'>
+							Secure payment processing
+						</p>
+					</div>
+				</div>
 			)}
 		</div>
 	);
