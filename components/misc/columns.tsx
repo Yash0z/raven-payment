@@ -79,7 +79,9 @@ export const MycontractColumns: ColumnDef<Contract>[] = [
 				<Button
 					className='text-[0.8em]'
 					variant='outline'
-					onClick={() => (window.location.href = `/my-contracts/${hexID}`)}
+					onClick={() =>
+						(window.location.href = `/contract/my-contracts/${hexID}`)
+					}
 				>
 					<span>view</span>
 					<span>
@@ -126,7 +128,7 @@ export const ApprovedContractColumns: ColumnDef<Contract>[] = [
 					className='text-[0.8em]'
 					variant='outline'
 					onClick={() =>
-						(window.location.href = `/approved-contracts/${hexID}`)
+						(window.location.href = `/contract/approved-contracts/${hexID}`)
 					}
 				>
 					<span>view</span>

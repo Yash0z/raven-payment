@@ -40,12 +40,12 @@ const data = {
 		},
 		{
 			title: "My Contracts",
-			url: "/my-contracts",
+			url: "/contract/my-contracts",
 			icon: IconLogs,
 		},
 		{
 			title: "Contracts",
-			url: "/approved-contracts",
+			url: "/contract/approved-contracts",
 			icon: IconContract,
 		},
 		{

@@ -8,17 +8,17 @@ interface BankCardProps {
 	data?: CardData;
 }
 
-export default function ActiveContract({ data }: BankCardProps) {
+export default function OngoingContract({ data }: BankCardProps) {
 	const [isHovered, setIsHovered] = useState(false);
 
 	return (
 		<Card
 			onClick={() => {
 				if (data?.contractHexID) {
-					redirect(`/contract/${data.contractHexID}`);
+					redirect(`/contract/approved-contracts/${data.contractHexID}`);
 				}
 			}}
-			className={`w-full max-h-35 bg-background border border-secondary-foreground/60 rounded-lg transition-all duration-200 ${
+			className={`w-full max-h-35 bg-background border  mb-2  rounded-lg transition-all duration-200 ${
 				isHovered ? "scale-[1.02] border-primary" : ""
 			}`}
 			onMouseEnter={() => setIsHovered(true)}
@@ -26,14 +26,14 @@ export default function ActiveContract({ data }: BankCardProps) {
 		>
 			<CardContent>
 				<div className='flex  justify-between items-start'>
-					<h2 className='font-cabinet-medium flex gap-5 tracking-wide'>
+					<h2 className='font-cabinet-medium flex gap-5 text-accent-foreground/80 tracking-wide'>
 						<span> {data?.contractName}</span>
 
 						<span className='text-sm text-muted-foreground/80 bg-foreground/10 text-center p-1 px-5 rounded-md'>
 							{data?.contractHexID}
 						</span>
 					</h2>
-					<span className='text-right'>${data?.amount}</span>
+					<span className='text-right text-primary'>₹ {data?.amount}</span>
 				</div>
 
 				<div className='mt-2 mb-2 flex justify-between '>

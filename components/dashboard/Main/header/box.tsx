@@ -1,11 +1,9 @@
 "use client";
 import { userAtom } from "@/atoms/userAtom";
-import { Button } from "@/components/ui/button";
 import { useAtom } from "jotai";
-import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
+import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
 export const Box: React.FC = () => {
 	const [user] = useAtom(userAtom);
 	const router = useRouter();
@@ -26,7 +24,7 @@ export const Box: React.FC = () => {
 
 	return (
 		<>
-			<main className='flex flex-col h-full justify-between gap-10 px-5'>
+			<main className='flex flex-col h-full justify-between gap-10 pt-5'>
 				<div className='flex gap-2 items-center'>
 					<h1 className='text-2xl md:text-3xl text-muted-foreground font-zodiak-regular '>
 						Hello,
@@ -36,14 +34,12 @@ export const Box: React.FC = () => {
 					</h1>
 				</div>
 				<div className=''>
-					<Button
-						className='text-muted-foreground m-1 text-lg p-3 border-primary hover:bg-primary mb-10'
-						size='lg'
-						variant='outline'
+					<InteractiveHoverButton
+						className='bg-background'
 						onClick={handleCreateClick}
 					>
-						Create <Plus className='mt-0.9' />
-					</Button>
+						Create
+					</InteractiveHoverButton>
 				</div>
 			</main>
 		</>

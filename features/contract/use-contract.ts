@@ -48,6 +48,23 @@ export const useContract = () => {
 	});
 	return query;
 };
+//get ongoing
+export const getOngoingContract = () => {
+	const query = useQuery({
+		queryKey: ["ongoing-contracts"],
+		queryFn: async () => {
+			const res = await client.api.contract.ongoing.$get();
+			if (!res.ok) {
+				throw new Error("server error");
+			}
+			return await res.json();
+		},
+		refetchOnWindowFocus: false, // Don't refetch on window focus
+		retry: 1, // Only retry once if fails
+	});
+
+	return query;
+};
 
 // approved-contracts
 export const getApprovedContract = () => {

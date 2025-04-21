@@ -5,7 +5,7 @@ import { contract, ContractSchema, user } from "../modules/models/schema";
 import { db } from "../modules/db/db";
 import { generateHEXID } from "../utils/generateHEXID";
 import { generateTimeline } from "../utils/generateTimeline";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 
 const contractRouter = new Hono<Context>()
@@ -74,6 +74,24 @@ const contractRouter = new Hono<Context>()
 			return c.json(data);
 		}
 	)
+	// get ongoing queries
+	.get("/ongoing", async (c) => {
+		const inUser = c.get("user");
+		// If user is undefined, log an error
+		if (!inUser) {
+			console.error("Unauthorized access - User is missing.");
+			return c.json({ error: "Unauthorized" }, 401);
+		}
+
+		const OngoingContracts = await db.query.contract.findMany({
+			where: and(
+				eq(contract.createdBy, inUser.email),
+				eq(contract.status, "active")
+			),
+		});
+
+		return c.json({ OngoingContracts }, 200);
+	})
 	// Get my-contracts
 	.get("/my-contracts", async (c) => {
 		const inUser = c.get("user");
@@ -147,7 +165,9 @@ const contractRouter = new Hono<Context>()
 
 		return c.json({ data }, 200);
 	})
-	.patch("/update",
+	//update status
+	.patch(
+		"/update",
 		zValidator(
 			"json",
 			z.object({
